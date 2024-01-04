@@ -26,7 +26,7 @@ proc: BEGIN
 		SET @p_accountID = (SELECT RIGHT(CONCAT('00000', CAST(IFNULL(MAX(accountID), 0) + 1 AS CHAR(5))), 5) FROM AccountCar);
 		INSERT INTO AccountCar (accountID, phoneNumber, passwordAccount, fullName, address, email, birthday, isCarOwner) 
         VALUES (@p_accountID , p_phoneNumber, p_password,	p_fullName, p_address, p_email, p_birthday, p_isCarOwner);
-        select 'Successful' as 'Note';
+        select accountID, isCarOwner from AccountCar where @p_accountID = accountID;
      END if;
 END //
 DELIMITER ;
@@ -43,11 +43,15 @@ proc: BEGIN
 		ROLLBACK;
         signal SQLSTATE '23000' SET MESSAGE_TEXT = 'The phone number is not exist';
 		leave proc;
-	 
+	 IF not EXISTS(SELECT 1 FROM AccountCar WHERE p_phoneNumber = phoneNumber and passwordAccount = p_password
+	  ) then
+		ROLLBACK;
+        signal SQLSTATE '23000' SET MESSAGE_TEXT = 'The password is wrong';
+		leave proc;
       else
         if exists (select 1 from AccountCar where passwordAccount = p_password and phoneNumber = p_phoneNumber) then
         begin
-			select 'Successful' as 'Note';
+			select accountID, isCarOwner from AccountCar where @p_accountID = accountID;
         end;
         end if;
      END if;
@@ -104,6 +108,8 @@ proc: BEGIN
     Update Car
     set carStatus = 0
     where carID = p_carID;
+    
+    select rentalID from Rental where rentalID = @p_rentalID;
 END //
 DELIMITER ;
 
@@ -124,28 +130,25 @@ proc: BEGIN
     DECLARE return_time_param DATETIME;
     DECLARE PAYMENT_ID CHAR(5);
     SELECT price INTO total_cost_value FROM Car WHERE carID = car_id_param;
-    SELECT discountPercent INTO discount_percent_value FROM Discount WHERE discountCode = discount_code_param;
 	SELECT returnTime INTO return_time_param FROM Rental;
     SELECT pickupTime INTO pickup_time_param FROM Rental;
     
     
     SET total_cost_value = TIMESTAMPDIFF(HOUR, pickup_time_param, return_time_param) * total_cost_value / 24;
-    SET discount_cost_value = total_cost_value * (discount_percent_value / 100);
-    SET payment_amount_value = total_cost_value - discount_cost_value;
     
-	SET PAYMENT_ID = (SELECT RIGHT(CONCAT('00000', CAST(IFNULL(MAX(paymentID), 0) + 1 AS CHAR(5))), 5) FROM payment);
+	-- SET PAYMENT_ID = (SELECT RIGHT(CONCAT('00000', CAST(IFNULL(MAX(paymentID), 0) + 1 AS CHAR(5))), 5) FROM payment);
+    SET @PAYMENT_ID = (SELECT RIGHT(CONCAT('00000', CAST(IFNULL(MAX(paymentID), 0) + 1 AS CHAR(5))), 5) FROM Payment);
     -- Thêm bản ghi vào bảng Payment
-    INSERT INTO Payment (paymentID, paymentAmount, paymentMethod, paymentDate, totalCost, discountCost, paymentStatus, discountID)
+    INSERT INTO Payment (paymentID, paymentAmount, paymentMethod, paymentDate, totalCost, paymentStatus)
     VALUES (
-        UUID(), 
+        @PAYMENT_ID, 
         payment_amount_value, 
         paymentMethod,  -- Thay 'your_payment_method' bằng phương thức thanh toán thực tế
         paymentDate,  -- Ngày thanh toán
         total_cost_value,
-        discount_cost_value,
-        0, 
-        (SELECT discountID FROM Discount WHERE discountCode = discount_code_param)
-    );
+        0);
+	
+    select paymentID from Payment where paymentID = @PAYMENT_ID;
 END //
 DELIMITER ;
 
@@ -170,6 +173,8 @@ proc: BEGIN
 	Update Car 
     Set carCompany = p_carCompany, model = p_model, seats = p_seats, transmission = p_transmission, fuelType = p_fuelType, yearRelease = p_yearRelease, price = p_price
 	where p_carID = carID;
+    
+    select carID from Car where p_carID = carID;
 END//
 DELIMITER ;
 

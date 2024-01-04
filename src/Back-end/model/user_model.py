@@ -25,101 +25,119 @@ class user_model():
     
     # đăng ký
     def signup_model(self, data):
-        password = hash_password(data['passwordAccount'])
-        self.cur.execute(f"CALL CreateAccount('{data['phoneNumber']}', '{password}', '{data['fullName']}', '{data['address']}', '{data['email']}', '{data['birthday']}', '{data['isCarOwner']}')")
-        result = self.cur.fetchall()
-        if len(result)>0:
-            return make_response({"message":"Insert successfully"}, 201)
+        try:
+            password = hash_password(data['passwordAccount'])
+            self.cur.execute(f"CALL CreateAccount('{data['phoneNumber']}', '{password}', '{data['fullName']}', '{data['address']}', '{data['email']}', '{data['birthday']}', '{data['isCarOwner']}')")
+            result = self.cur.fetchall()
+            if len(result)>0:
+                return make_response({"payload": result}, 201)
+        except Exception as e:
+            return make_response({"message": "Failed: " + str(e)}, 400)
         
-    
-    #đăng nhập
+
+    #đăng nhập 
     def login_model(self, data):
-        password = hash_password(data['passwordAccount'])
-        self.cur.execute(f"CALL Login('{data['phoneNumber']}','{password}');")
-        result = self.cur.fetchall()
-        print(result)
-        if len(result) > 0:
-            return make_response({"message":"Login successfully"}, 200)
-        else:
-            return make_response({"message":"Login unsuccessfully"}, 401)
+        try:
+            password = hash_password(data['passwordAccount'])
+            self.cur.execute(f"CALL Login('{data['phoneNumber']}','{password}');")
+            result = self.cur.fetchall()
+            if len(result) > 0:
+                return make_response({"payload": result}, 200)
+        except Exception as e:
+            return make_response({"message": "Failed: " + str(e)}, 401)
 
     # sửa thông tin xe
     def edit_car_model(self, data):
-        self.cur.execute(f"CALL editCar ('{data['carID']}', '{data['carCompany']}', '{data['model']}', '{data['seats']}', '{data['transmission']}', '{data['transmission']}', '{data['fuelType']}', '{data['yearRelease']}', '{data['price']}'))")
-        result = self.cur.fetchall()
-        if len(result)>0:    
-            return make_response({"message":"Update successfully"}, 201)
-        else:
-            return make_response({"message":"Update failed"}, 202)
+        try:    
+            self.cur.execute(f"CALL editCar ('{data['carID']}', '{data['carCompany']}', '{data['model']}', '{data['seats']}', '{data['transmission']}', '{data['transmission']}', '{data['fuelType']}', '{data['yearRelease']}', '{data['price']}'))")
+            result = self.cur.fetchall()
+            if len(result)>0:
+                return make_response({"payload": result}, 201)
+        except Exception as e:
+            return make_response({"message": "Failed: " + str(e)}, 202)
 
     def add_new_car_model(self, data):
-        self.cur.execute(f"CALL addNewCar('{data['carCompany']}', '{data['model']}', '{data['seats']}', '{data['transmission']}', '{data['fuelType']}', '{data['yearRelease']}', '{data['price']}', '{data['phoneNumber']}')")
-        result = self.cur.fetchall()
-        if result == "Successful":
-            return make_response({"message":"Insert successfully"}, 201)
-        else:
-            return make_response({"message":"Insert unsuccessfully"}, 201)
+        try:
+            self.cur.execute(f"CALL addNewCar('{data['carCompany']}', '{data['model']}', '{data['seats']}', '{data['transmission']}', '{data['fuelType']}', '{data['yearRelease']}', '{data['price']}', '{data['phoneNumber']}')")
+            result = self.cur.fetchall()
+            if len(result)>0:
+                return make_response({"payload": result}, 201)
+        except Exception as e:
+            return make_response({"message": "Failed: " + str(e)}, 400)
 
     # xem thông tin xe
     def get_car_model(self, id):
-        self.cur.execute(f"CALL GetCarInfo('{id}')")
-        result = self.cur.fetchall()
-        if len(result)>0:
-            return make_response({"payload": result}, 200)
-        else: 
-            return make_response({"message":"No data found"}, 204)
+        try:
+            self.cur.execute(f"CALL GetCarInfo('{id}')")
+            result = self.cur.fetchall()
+            if len(result)>0:
+                return make_response({"payload": result}, 200)
+        except Exception as e:
+            return make_response({"message": "Failed: " + str(e)}, 204)
 
     #thêm thuê xe 
     def add_rental_model(self, data):
-        self.cur.execute(f"CALL InsertRental('{data['phoneUse']}', '{data['carID']}', '{data['pickupTime']}', '{data['returnTime']}', '{data['rentalPrice']}', '{data['retalLocationID']}', '{data['paymentID']}')")
-        result = self.cur.fetchall()
-        if len(result)>0:
-            return make_response({"message":"Insert successfully"}, 201)
-        else:
-            return make_response({"message":"Insert unsuccessfully"}, 201)
+        try:
+            self.cur.execute(f"CALL InsertRental('{data['phoneUse']}', '{data['carID']}', '{data['pickupTime']}', '{data['returnTime']}', '{data['rentalPrice']}', '{data['retalLocationID']}', '{data['paymentID']}')")
+            result = self.cur.fetchall()
+            if len(result)>0:
+                return make_response({"payload": result}, 201)
+        except Exception as e:
+            return make_response({"message": "Failed: " + str(e)}, 400)
+        
 
     #thêm thanh toán
     def add_payment_model(self, data):
-        self.cur.execute(f"CALL AddPayment('{data['carID']}', '{data['paymentMethod']}', '{data['paymentDate']}', '{data['discountCode']}')")
-        result = self.cur.fetchall()
-        if len(result)>0:
-            return make_response({"message":"Insert successfully"}, 201)
-        else:
-            return make_response({"message":"Insert unsuccessfully"}, 201)
+        try:
+            self.cur.execute(f"CALL AddPayment('{data['carID']}', '{data['paymentMethod']}', '{data['paymentDate']}', '{data['discountCode']}')")
+            result = self.cur.fetchall()
+            if len(result)>0:
+                return make_response({"payload": result}, 201)
+        except Exception as e:
+            return make_response({"message": "Failed: " + str(e)}, 400)
     
     # xem thông tin chuyến đi hiện tại
     def current_trip_model(self):
-        self.cur.execute(f"CALL GetCurrentTrip('{id}')")
-        result = self.cur.fetchall()
-        if len(result)>0:
-            return make_response({"payload": result}, 200)
-        else: 
-            return make_response({"message":"No data found"}, 204)
-        
-    def current_rental_trip_list_model(self):
-        self.cur.execute(f"CALL GetCurrentRentalCarList('{id}')")
-        result = self.cur.fetchall()
-        if len(result)>0:
-            return make_response({"payload": result}, 200)
-        else: 
-            return make_response({"message":"No data found"}, 204)
+        try:
+            self.cur.execute(f"CALL GetCurrentTrip('{id}')")
+            result = self.cur.fetchall()
+            if len(result)>0:
+                return make_response({"payload": result}, 200)
+        except Exception as e:
+            return make_response({"message": "Failed: " + str(e)}, 204)
 
+    def current_rental_trip_list_model(self):
+        try:    
+            self.cur.execute(f"CALL GetCurrentRentalCarList('{id}')")
+            result = self.cur.fetchall()
+            # if len(result)>0:
+            #     return make_response({"payload": result}, 200)
+            # else: 
+            #     return make_response({"message":"No data found"}, 204)
+            if len(result)>0:
+                return make_response({"payload": result}, 200)
+        except Exception as e:
+            return make_response({"message": "Failed: " + str(e)}, 204)
     # xem lịch sử thuê xe
     def rental_history_model(self):
-        self.cur.execute(f"CALL GetRentalHistory('{id}')")
-        result = self.cur.fetchall()
-        if len(result)>0:
-            return make_response({"payload": result}, 200)
-        else: 
-            return make_response({"message":"No data found"}, 204)
+        try:
+            self.cur.execute(f"CALL GetRentalHistory('{id}')")
+            result = self.cur.fetchall()
+            if len(result)>0:
+                return make_response({"payload": result}, 200)
+        except Exception as e:
+            return make_response({"message": "Failed: " + str(e)}, 204)
 
     def trip_history_model(self):
-        self.cur.execute(f"CALL GetTripHistory('{id}')")
-        result = self.cur.fetchall()
-        if len(result)>0:
-            return make_response({"payload": result}, 200)
-        else: 
-            return make_response({"message":"No data found"}, 204)
+        try:
+            self.cur.execute(f"CALL GetTripHistory('{id}')")
+            result = self.cur.fetchall()
+            if len(result)>0:
+                return make_response({"payload": result}, 200)
+        except Exception as e:
+            return make_response({"message": "Failed: " + str(e)}, 204)
+
+
     # def delete_car_model(self, id):
     #     self.cur.execute(f"CALL deleteCar('{id}')")
     #     result = self.cur.fetchall()

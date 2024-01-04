@@ -7,13 +7,13 @@ USE VIVUAPP;
 CREATE TABLE Car
 (
 	carID char(5),
-    carCompany varchar(15) NOT NULL,
+    carCompany varchar(15),
     model nvarchar(30),
     seats int,
     transmission nvarchar(30),
-    fuelType nvarchar(15) NOT NULL,
-    yearRelease year NOT NULL,
-    price float NOT NULL,
+    fuelType nvarchar(15),
+    yearRelease year,
+    price float,
     carStatus boolean,
     carOwnerID char(5),
     -- carStatus: 1 - xe có thể thuê, 0 - xe không thể thuê
@@ -27,10 +27,10 @@ CREATE TABLE Car
 	rentalID char(5),
     carID char(5) NOT NULL,
     customerID char(5) NOT NULL,
-    pickupTime datetime NOT NULL,
-    returnTime datetime NOT NULL,
-    rentalPrice float NOT NULL,
-    rentalStatus boolean NOT NULL,
+    pickupTime datetime,
+    returnTime datetime,
+    rentalPrice float,
+    rentalStatus boolean,
     rentalLocationID char(5),
     paymentID char(5),
     -- rentalStatus: 1 - đang thuê, 0 - đã trả xe
@@ -87,9 +87,9 @@ create table CarOwner
 create table RentalLocation
 (
 	rentalLocationID char(5),
-    address nvarchar(40)  NOT NULL,
-    startHour time  NOT NULL,
-	endHour time  NOT NULL,
+    address nvarchar(40),
+    startHour time,
+	endHour time,
     
     primary key(rentalLocationID)
 );
