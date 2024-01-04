@@ -2,13 +2,17 @@ from lib import app
 from model.user_model import user_model
 from flask import request, render_template, session, redirect
 import hashlib
-
+import secrets
 id_user = '00001'
 
 def hash_password(password):
     hash_object = hashlib.sha256()
     hash_object.update(password.encode("utf-8"))
     return hash_object.hexdigest()
+
+app.secret_key = secrets.token_urlsafe(32)
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
 
 obj = user_model()
 
@@ -32,6 +36,8 @@ def login():
     if obj.login_model(request.form) == 401:
         redirect("/login")
     else:
+        session["user"] = obj['accountID']
+        session["type"] = obj['isCarOwner']
         redirect("/homepage")
     # return obj.login_model(request.form)
 
