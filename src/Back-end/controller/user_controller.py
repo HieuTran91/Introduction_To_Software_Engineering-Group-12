@@ -4,7 +4,7 @@ from flask import request, render_template, session, redirect
 import hashlib
 import secrets
 from flask_session import Session
-id_user = '00001'
+import json
 
 def hash_password(password):
     hash_object = hashlib.sha256()
@@ -16,6 +16,8 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
+# session['car'] = '00015'
+# session['user'] = '00002'
 obj = user_model()
 
 @app.route('/')
@@ -24,75 +26,81 @@ def welcome():
 
 @app.route('/homepage')
 def homepage():
-    return 'HOME PAGE'
+    result = obj.get_car_model()
+    return result.get_data()
 
-@app.route("/signup", methods = ["POST"])
+@app.route("/signup", methods = ["POST", "GET"])
 def signup():
     result = obj.signup_model(request.form)
     if result.status_code == 201:
-        session['user'] = result.get_data('accountID')
+        session['user'] = result.data['accountID']
         session['type'] = result.get_data('isCarOwner')
     return result.get_data()
 
 @app.route("/login", methods = ["POST","GET"])
 def login():
-    # response_dict = obj.login_model(request.form)
-    # result = response_dict.json()
-    # print(result)
-    
-    # print(response_dict)
-    # if response_dict.get_data() == 200:
-
-        # session["accountID"] = obj['accountID']
-        # The line `session["type"] = obj['isCarOwner']` is assigning the value of the `isCarOwner`
-        # attribute from the `obj` object to the `type` key in the `session` dictionary. This allows
-        # the application to store and access the user's type (whether they are a car owner or not)
-        # throughout their session.
-        # session["type"] = obj['isCarOwner']
-        # return "Hehe"
-    return obj.login_model(request.form)
-    # if obj.login_model(request.form) == 401:
-        # redirect("/login")
-    # else:
-        # session["user"] = obj['accountID']
-        # session["type"] = obj['isCarOwner']
-        # redirect("/homepage")
-    # return obj.login_model(request.form)
-
+    result = obj.login_model(request.form)
+    # print()
+    print(result)
+    json_re = json.loads(result)
+    print(json_re['data'][0]['accountID'])
+    print(type(json_re['data']))
+    # re = json_re['data'][0]
+    # if result.status_code == 200:
+        # payload_dict = json.loads(result.get_data('payload'))
+        # accountID = result.get_data('payload')['accountID']
+        # session['user'] = accountID
+        # print(payload_dict[0])
+        # print(result.get_data())
+        # session['type'] = result.get_data('isCarOwner')
+    # return result.get_data()
+    return result
+ 
 @app.route("/logout")
 def logout():
     session["user"] = None
     session["type"] = None
     return redirect("/")
 
-@app.route("/user_id/<user_id>/car/<id>", methods = ["POST", "GET"])
-def getCar(id):
-    return obj.get_car_model(id)
+@app.route("/car", methods = ["POST", "GET"])
+def getCar():
+    result = obj.get_detail_car_model(request.form)
+    if result.status_code == 200:
+        session['car'] = result.get_data('carID')
+    return result.get_data()
 
-@app.route("/user/<user_id>/editcar/<id>", methods = ["POST", "GET"])
-def editCar(car_id):
-    return 'edit car information'
+@app.route("/editcar", methods = ["POST", "GET"])
+def editCar():
+    result = obj.edit_car_model(request.form, session['car'])
+    return result.get_data()
 
-@app.route("/user/<user_id>/car/<id>/rentalcar", methods = ["POST", "GET"])
-def rentalCar(car_id):
-    return 'edit car information'
+@app.route("/rentalcar", methods = ["POST", "GET"])
+def rentalCar():
+    result = obj.add_rental_model(request.form, session["user"], session['car'])
+    return result.get_data()
 
-@app.route("/user/<user_id>/car/<id>/payment", methods = ["POST", "GET"])
-def payment(car_id):
-    return 'edit car information'
+# @app.route("/payment", methods = ["POST", "GET"])
+# def payment(car_id):
+#     return 'edit car information'
 
-@app.route("/user/<id>/currentTrip", methods = ["POST", "GET"])
+@app.route("/currentTrip", methods = ["POST", "GET"])
 def currentTrip():
-    return 'current trip'
+    result = obj.current_trip_model(session["user"])
+    return result.get_data()
 
-@app.route("/user/<id>/currentRentalTripList", methods = ["POST", "GET"])
+@app.route("/currentRentalTripList", methods = ["POST", "GET"])
 def currentRentalTripList():
-    return 'current trip'
+    result = obj.current_rental_trip_list_model(session["user"])
+    return result.get_data()
 
-@app.route("/user/<id>/rentalHistory", methods = ["POST", "GET"])
+@app.route("/rentalHistory", methods = ["POST", "GET"])
 def rentalHistory():
-    return 'Rent car'
+    result = obj.rental_history_model(session["user"])
+    return result.get_data()
 
-@app.route("/user/<id>/tripHistory", methods = ["POST", "GET"])
+@app.route("/tripHistory", methods = ["POST", "GET"])
 def tripHistory():
-    return 'Rent car'
+    user = session["user"]
+    print(user)
+    result = obj.trip_history_model(user)
+    return result.get_data()

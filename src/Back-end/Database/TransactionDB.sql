@@ -43,24 +43,20 @@ proc: BEGIN
 		ROLLBACK;
         signal SQLSTATE '23000' SET MESSAGE_TEXT = 'The phone number is not exist';
 		leave proc;
+	END IF;
 	 IF not EXISTS(SELECT 1 FROM AccountCar WHERE p_phoneNumber = phoneNumber and passwordAccount = p_password
 	  ) then
 		ROLLBACK;
         signal SQLSTATE '23000' SET MESSAGE_TEXT = 'The password is wrong';
 		leave proc;
-      else
-        if exists (select 1 from AccountCar where passwordAccount = p_password and phoneNumber = p_phoneNumber) then
-        begin
-			select accountID, isCarOwner from AccountCar where @p_accountID = accountID;
-        end;
-        end if;
-     END if;
+	end if;
+	select accountID, isCarOwner from AccountCar where p_phoneNumber = phoneNumber and passwordAccount = p_password;
 END //
 DELIMITER ;
 
 DELIMITER //
 CREATE PROCEDURE InsertRental(
-	IN p_phoneUse char(10),
+	IN p_cusID char(5),
 	IN p_carID CHAR(5),
 	IN p_pickupTime DATETIME,
 	IN p_returnTime DATETIME,
@@ -69,18 +65,17 @@ CREATE PROCEDURE InsertRental(
 	IN p_paymentID CHAR(5)
 )
 proc: BEGIN
-	IF not EXISTS(SELECT 1 FROM AccountCar WHERE p_phoneNumber = phoneNumber) then
+	IF not EXISTS(SELECT 1 FROM AccountCar WHERE p_cusID = accountID) then
 		ROLLBACK;
 		Signal SQLSTATE '23000' SET MESSAGE_TEXT = 'The phone number is not exists';
 		leave proc;
 	end if;
-    Set @p_customerID = (SELECT accountID from AccountCar where phoneNumber = p_phoneUse);
-    IF exists (SELECT 1 FROM rental WHERE customerID = @p_customerID and rentalStatus = 1)  then
+    IF exists (SELECT 1 FROM rental WHERE customerID = p_cusID and rentalStatus = 1)  then
     ROLLBACK;
 		Signal SQLSTATE '23000' SET MESSAGE_TEXT = 'Customer is having a reservation';
 		leave proc;
 	end if;
-    IF EXISTS(SELECT 1 FROM CarOwner WHERE @p_customerID = carOwnerID) then
+    IF EXISTS(SELECT 1 FROM CarOwner WHERE p_cusID = carOwnerID) then
         signal SQLSTATE '23000' SET MESSAGE_TEXT = 'The user can not rent car';
         ROLLBACK;
 		leave proc;
@@ -103,7 +98,7 @@ proc: BEGIN
     
     SET @p_rentalID = (SELECT RIGHT(CONCAT('00000', CAST(IFNULL(MAX(rentalID), 0) + 1 AS CHAR(5))), 5) FROM Rental);
     INSERT INTO Rental (rentalID, carID, customerID, pickupTime, returnTime, rentalPrice, rentalStatus, rentalLocationID, paymentID)
-    VALUES (@p_rentalID, p_carID, @p_customerID, p_pickupTime, p_returnTime, p_rentalPrice, 1, p_rentalLocationID, p_paymentID);
+    VALUES (@p_rentalID, p_carID, p_cusID, p_pickupTime, p_returnTime, p_rentalPrice, 1, p_rentalLocationID, p_paymentID);
     
     Update Car
     set carStatus = 0

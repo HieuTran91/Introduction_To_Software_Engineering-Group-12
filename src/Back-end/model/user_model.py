@@ -3,6 +3,9 @@ from lib import app
 import mysql.connector
 import jsonify
 import hashlib
+import json
+import numpy as np
+# from flask import jsonify
 
 def hash_password(password):
     hash_object = hashlib.sha256()
@@ -33,7 +36,7 @@ class user_model():
                 return make_response({"payload": result}, 201)
         except Exception as e:
             return make_response({"message": "Failed: " + str(e)}, 400)
-        
+  
 
     #đăng nhập 
     def login_model(self, data):
@@ -42,20 +45,23 @@ class user_model():
             self.cur.execute(f"CALL Login('{data['phoneNumber']}','{password}');")
             result = self.cur.fetchall()
             if len(result) > 0:
-                return make_response({"payload": result}, 200)
+                # return make_response({"payload": result}, 200)
+                result = {"data":result, "status_code": 200}
+                return json.dumps(result)
+                # return result
         except Exception as e:
             return make_response({"message": "Failed: " + str(e)}, 401)
-
+ 
     # sửa thông tin xe
-    def edit_car_model(self, data):
+    def edit_car_model(self, data, carID):
         try:    
-            self.cur.execute(f"CALL editCar ('{data['carID']}', '{data['carCompany']}', '{data['model']}', '{data['seats']}', '{data['transmission']}', '{data['transmission']}', '{data['fuelType']}', '{data['yearRelease']}', '{data['price']}'))")
+            self.cur.execute(f"CALL editCar ('{carID}', '{data['carCompany']}', '{data['model']}', '{data['seats']}', '{data['transmission']}', '{data['transmission']}', '{data['fuelType']}', '{data['yearRelease']}', '{data['price']}'))")
             result = self.cur.fetchall()
             if len(result)>0:
                 return make_response({"payload": result}, 201)
         except Exception as e:
             return make_response({"message": "Failed: " + str(e)}, 202)
-
+ 
     def add_new_car_model(self, data):
         try:
             self.cur.execute(f"CALL addNewCar('{data['carCompany']}', '{data['model']}', '{data['seats']}', '{data['transmission']}', '{data['fuelType']}', '{data['yearRelease']}', '{data['price']}', '{data['phoneNumber']}')")
@@ -65,10 +71,20 @@ class user_model():
         except Exception as e:
             return make_response({"message": "Failed: " + str(e)}, 400)
 
-    # xem thông tin xe
-    def get_car_model(self, id):
+    # xem thông tin xe 'oki'
+    def get_car_model(self):
         try:
-            self.cur.execute(f"CALL GetCarInfo('{id}')")
+            self.cur.execute(f"Select * from Car")
+            result = self.cur.fetchall()
+            if len(result)>0:
+                return make_response({"payload": result}, 200)
+        except Exception as e:
+            return make_response({"message": "Failed: " + str(e)}, 204)
+        
+    # xem thông tin chi tiết của xe
+    def get_detail_car_model(self, data):
+        try:
+            self.cur.execute(f"CALL GetCarInfo('{data['carID']}')")
             result = self.cur.fetchall()
             if len(result)>0:
                 return make_response({"payload": result}, 200)
@@ -76,9 +92,9 @@ class user_model():
             return make_response({"message": "Failed: " + str(e)}, 204)
 
     #thêm thuê xe 
-    def add_rental_model(self, data):
+    def add_rental_model(self, data, cusID, carID):
         try:
-            self.cur.execute(f"CALL InsertRental('{data['phoneUse']}', '{data['carID']}', '{data['pickupTime']}', '{data['returnTime']}', '{data['rentalPrice']}', '{data['retalLocationID']}', '{data['paymentID']}')")
+            self.cur.execute(f"CALL InsertRental('{cusID}', '{carID}', '{data['pickupTime']}', '{data['returnTime']}', '{data['rentalPrice']}', '{data['retalLocationID']}', '{data['paymentID']}')")
             result = self.cur.fetchall()
             if len(result)>0:
                 return make_response({"payload": result}, 201)
@@ -97,40 +113,37 @@ class user_model():
             return make_response({"message": "Failed: " + str(e)}, 400)
     
     # xem thông tin chuyến đi hiện tại
-    def current_trip_model(self):
+    def current_trip_model(self, cusID):
         try:
-            self.cur.execute(f"CALL GetCurrentTrip('{id}')")
+            self.cur.execute(f"CALL GetCurrentTrip('{cusID}')")
             result = self.cur.fetchall()
             if len(result)>0:
                 return make_response({"payload": result}, 200)
         except Exception as e:
             return make_response({"message": "Failed: " + str(e)}, 204)
 
-    def current_rental_trip_list_model(self):
+    def current_rental_trip_list_model(self, cusID):
         try:    
-            self.cur.execute(f"CALL GetCurrentRentalCarList('{id}')")
+            self.cur.execute(f"CALL GetCurrentRentalCarList('{cusID}')")
             result = self.cur.fetchall()
-            # if len(result)>0:
-            #     return make_response({"payload": result}, 200)
-            # else: 
-            #     return make_response({"message":"No data found"}, 204)
             if len(result)>0:
                 return make_response({"payload": result}, 200)
         except Exception as e:
             return make_response({"message": "Failed: " + str(e)}, 204)
+        
     # xem lịch sử thuê xe
-    def rental_history_model(self):
+    def rental_history_model(self, cusID):
         try:
-            self.cur.execute(f"CALL GetRentalHistory('{id}')")
+            self.cur.execute(f"CALL GetRentalHistory('{cusID}')")
             result = self.cur.fetchall()
             if len(result)>0:
                 return make_response({"payload": result}, 200)
         except Exception as e:
             return make_response({"message": "Failed: " + str(e)}, 204)
 
-    def trip_history_model(self):
+    def trip_history_model(self, cusID):
         try:
-            self.cur.execute(f"CALL GetTripHistory('{id}')")
+            self.cur.execute(f"CALL GetTripHistory('{cusID}')")
             result = self.cur.fetchall()
             if len(result)>0:
                 return make_response({"payload": result}, 200)
