@@ -69,34 +69,34 @@ class HomeScreen extends StatelessWidget {
             "Hot deals",
             style: CustomTextStyles.titleLargeErrorContainer,
           ),
-           GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushNamed(AppRoutes
-                            .listCarPage); // Adjust with your actual sign-up route
-                      },
-                      child: RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: "View",
-                              style: CustomTextStyles.titleLargePrimaryMedium,
-                            ),
-                            TextSpan(
-                              text: " ",
-                            ),
-                            TextSpan(
-                              text: "all",
-                              style: CustomTextStyles.titleLargePrimaryMedium,
-                            ),
-                            TextSpan(
-                              text: "...",
-                              style: CustomTextStyles.titleLargePrimaryMedium,
-                            ),
-                          ],
-                        ),
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed(AppRoutes
+                  .listCarPage); // Adjust with your actual sign-up route
+            },
+            child: RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: "View",
+                    style: CustomTextStyles.titleLargePrimaryMedium,
+                  ),
+                  TextSpan(
+                    text: " ",
+                  ),
+                  TextSpan(
+                    text: "all",
+                    style: CustomTextStyles.titleLargePrimaryMedium,
+                  ),
+                  TextSpan(
+                    text: "...",
+                    style: CustomTextStyles.titleLargePrimaryMedium,
+                  ),
+                ],
+              ),
+              textAlign: TextAlign.left,
+            ),
+          ),
         ],
       ),
     );
@@ -177,8 +177,7 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  ///Handling route based on bottom click actions
-  String getCurrentRoute(BottomBarEnum type) {
+  String getCurrentRoute(BottomBarEnum type, BuildContext context) {
     switch (type) {
       case BottomBarEnum.Dashiconsscreenoptions:
         return AppRoutes.listCarPage;
