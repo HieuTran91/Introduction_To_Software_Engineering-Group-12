@@ -24,11 +24,11 @@ class CustomBottomBarState extends State<CustomBottomBar> {
       activeIcon: ImageConstant.imgClarityNotificationSolid,
       type: BottomBarEnum.Claritynotificationsolid,
     ),
-    BottomMenuModel(
-      icon: ImageConstant.imgCarbonLocationFilled,
-      activeIcon: ImageConstant.imgCarbonLocationFilled,
-      type: BottomBarEnum.Carbonlocationfilled,
-    ),
+    // BottomMenuModel(
+    //   icon: ImageConstant.imgCarbonLocationFilled,
+    //   activeIcon: ImageConstant.imgCarbonLocationFilled,
+    //   //type: BottomBarEnum.Carbonlocationfilled,
+    // ),
     BottomMenuModel(
       icon: ImageConstant.imgCiSettingsFilled,
       activeIcon: ImageConstant.imgCiSettingsFilled,
@@ -92,7 +92,7 @@ class CustomBottomBarState extends State<CustomBottomBar> {
 enum BottomBarEnum {
   Dashiconsscreenoptions,
   Claritynotificationsolid,
-  Carbonlocationfilled,
+  //Carbonlocationfilled,
   Cisettingsfilled,
 }
 

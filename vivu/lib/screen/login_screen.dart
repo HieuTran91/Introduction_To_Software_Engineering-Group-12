@@ -12,10 +12,11 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final AccountController controller = AccountController();
   TextEditingController phoneNumberController = TextEditingController();
-
   TextEditingController passwordController = TextEditingController();
 
   Future<void> onSubmit(BuildContext context) async {
+    print('${phoneNumberController.text}');
+    print('${passwordController.text}');
     if (await controller.validateAccount(
         phoneNumberController.text, passwordController.text)) {
       controller.login(context);
@@ -206,7 +207,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 color: ColorSchemes.primaryColorScheme.onPrimary,
               ),
               onPressed: () {
-                // Assuming you have a route named 'verificationScreen' set up
                 Navigator.pushNamed(context, AppRoutes.homeScreen);
               },
             ),
