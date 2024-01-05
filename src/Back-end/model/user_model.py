@@ -1,7 +1,6 @@
 from flask import make_response
 from lib import app
 import mysql.connector
-import jsonify
 import hashlib
 import json
 import pandas as pd
@@ -18,7 +17,7 @@ class user_model():
             self.mydb = mysql.connector.connect(
 	        host="localhost",
 	        user = "root",
-        	password="Hieu0504@",
+        	password="131003",
 	        database="VIVUAPP")
             self.mydb.autocommit = True
             self.cur = self.mydb.cursor(dictionary=True)
@@ -44,7 +43,7 @@ class user_model():
     #đăng nhập 
     def login_model(self, data):
         try:
-            password = hash_password(data['passwordAccount'])
+            password = hash_password(data['password'])
             self.cur.execute(f"CALL Login('{data['phoneNumber']}','{password}');")
             result = self.cur.fetchall()
             if len(result) > 0:

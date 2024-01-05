@@ -11,11 +11,6 @@ def hash_password(password):
     hash_object.update(password.encode("utf-8"))
     return hash_object.hexdigest()
 
-app.secret_key = secrets.token_urlsafe(32)
-app.config["SESSION_PERMANENT"] = False
-app.config["SESSION_TYPE"] = "filesystem"
-Session(app)
-
 obj = user_model()
 
 @app.route('/')
@@ -24,33 +19,34 @@ def welcome():
 
 @app.route('/homepage')
 def homepage():
-    result = obj.get_car_model()
-    if result == None:
-        return json.dumps({"msg": "Not found data"})
-    re_py = json.loads(result)
-    return json.dumps(re_py['data'])
+    return obj.get_car_model()
+    # result = obj.get_car_model()
+    # if result == None:
+    #     return json.dumps({"msg": "Not found data"})
+    # re_py = json.loads(result)
+    # return json.dumps(re_py['data'])
 
 @app.route("/signup", methods = ["POST", "GET"])
 def signup():
-    result = obj.signup_model(request.form)
+    result = obj.signup_model(request.json)
     if result == None:
-        return json.dumps({"msg": "Not found data"})
+        return json.dumps({"msg": "Not found data", "status_code": 400})
     re_py = json.loads(result)
     if re_py['status_code'] == 201:
         session['user'] = re_py['data'][0]['accountID']
         session['type'] = re_py['data'][0]['isCarOwner']
-    return json.dumps(re_py['data'])
+    return result
 
-@app.route("/login", methods = ["POST","GET"])
+@app.route("/login", methods = ["POST"])
 def login():
-    result = obj.login_model(request.form)
+    result = obj.login_model(request.json)
     if result == None:
-        return json.dumps({"msg": "Not found data"})
+        return json.dumps({"msg": "Not found data", "status_code": 400})
     re_py = json.loads(result)
     if re_py['status_code'] == 200:
         session['user'] = re_py['data'][0]['accountID']
         session['type'] = re_py['data'][0]['isCarOwner']
-    return json.dumps(re_py['data'])
+    return result
  
 @app.route("/logout")
 def logout():
@@ -61,34 +57,34 @@ def logout():
 
 @app.route("/car", methods = ["POST", "GET"])
 def getCar():
-    result = obj.get_detail_car_model(request.form)
+    result = obj.get_detail_car_model(request.json)
     if result == None:
-        return json.dumps({"msg": "Not found data"})
+        return json.dumps({"msg": "Not found data", "status_code": 400})
     re_py = json.loads(result)
     if re_py['status_code'] == 200:
         session['car'] = re_py['data'][0]['carID']
-    return json.dumps(re_py['data'])
+    return result
  
 @app.route("/editcar", methods = ["POST", "GET"])
 def editCar():
-    result = obj.edit_car_model(request.form, session['car'])
+    result = obj.edit_car_model(request.json, session['car'])
     if result == None:
         return json.dumps({"msg": "Not found data"})
     re_py = json.loads(result)
     # if re_py['status_code'] == 201:
     #     return json.dumps(re_py['data'])
-    return json.dumps(re_py['data'])
+    return result
  
  
 @app.route("/rentalcar", methods = ["POST", "GET"])
 def rentalCar():
-    result = obj.add_rental_model(request.form, session["user"], session['car'])
+    result = obj.add_rental_model(request.json, session["user"], session['car'])
     if result == None:
-        return json.dumps({"msg": "Not found data"})
+        return json.dumps({"msg": "Not found data", "status_code": 400})
     re_py = json.loads(result)
     # if re_py['status_code'] == 200:
     #     return json.dumps(re_py['data'])
-    return json.dumps(re_py['data'])
+    return result
 
 # @app.route("/payment", methods = ["POST", "GET"])
 # def payment(car_id):
@@ -98,41 +94,41 @@ def rentalCar():
 def currentTrip():
     result = obj.current_trip_model(session["user"])
     if result == None:
-        return json.dumps({"msg": "Not found data"})
+        return json.dumps({"msg": "Not found data", "status_code": 400})
     re_py = json.loads(result)
     # if re_py['status_code'] == 200:
     #     return json.dumps(re_py['data'])
-    return json.dumps(re_py['data'])
+    return result
 
 @app.route("/currentRentalTripList", methods = ["POST", "GET"])
 def currentRentalTripList():
     result = obj.current_rental_trip_list_model(session["user"])
     if result == None:
-        return json.dumps({"msg": "Not found data"})
+        return json.dumps({"msg": "Not found data", "status_code": 400})
     re_py = json.loads(result)
     # if re_py['status_code'] == 200:
     #     return json.dumps(re_py['data'])
-    return json.dumps(re_py['data'])
+    return result
 
 @app.route("/rentalHistory", methods = ["POST", "GET"])
 def rentalHistory():
     result = obj.rental_history_model(session["user"])
     if result == None:
-        return json.dumps({"msg": "Not found data"})
+        return json.dumps({"msg": "Not found data", "status_code": 400})
     re_py = json.loads(result)
     # if re_py['status_code'] == 200:
     #     return json.dumps(re_py['data'])
-    return json.dumps(re_py['data'])
+    return result
   
 @app.route("/tripHistory", methods = ["POST", "GET"])
 def tripHistory():
     result = obj.trip_history_model(session['user'])
     if result == None:
-        return json.dumps({"msg": "Not found data"})
+        return json.dumps({"msg": "Not found data", "status_code": 400})
     re_py = json.loads(result)
     # if re_py['status_code'] == 200:
     #     return json.dumps(re_py['data'])
-    return json.dumps(re_py['data'])
+    return result
     # print(result)
     # if result is not None:
     #     re_py = json.loads(result)
