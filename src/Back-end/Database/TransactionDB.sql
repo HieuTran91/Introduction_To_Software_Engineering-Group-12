@@ -64,6 +64,8 @@ CREATE PROCEDURE InsertRental(
 	IN p_returnTime DATETIME
 )
 proc: BEGIN
+	DECLARE dateDiff INT;
+    declare p_rentalPrice Float;
 	IF not EXISTS(SELECT 1 FROM AccountCar WHERE p_cusID = accountID) then
 		ROLLBACK;
 		Signal SQLSTATE '23000' SET MESSAGE_TEXT = 'The cusstomer is not exists';
@@ -94,10 +96,12 @@ proc: BEGIN
         ROLLBACK;
 		leave proc;
 	end if;
-    
+
+    SET dateDiff = DATEDIFF(p_returnTime, p_pickupTime);
+    SET p_rentalPrice = dateDiff * (select price from car where carID = p_carID);
     SET @p_rentalID = (SELECT RIGHT(CONCAT('00000', CAST(IFNULL(MAX(rentalID), 0) + 1 AS CHAR(5))), 5) FROM Rental);
     INSERT INTO Rental (rentalID, carID, customerID, pickupTime, returnTime, rentalPrice, rentalStatus)
-    VALUES (@p_rentalID, p_carID, p_cusID, p_pickupTime, p_returnTime, p_rentalPrice, 1);
+    VALUES (@p_rentalID, p_carID, p_cusID, p_pickupTime, p_returnTime, p_rentalPrice, 0);
     
     Update Car
     set carStatus = 0
@@ -107,7 +111,8 @@ proc: BEGIN
 END //
 DELIMITER ;
 
--- CALL InsertRental('00004', '00014', '2024-01-01 08:00:00', '2024-01-06 08:00:00', 10000, null, null)
+-- CALL InsertRental('00003', '00002', '2024-01-01 08:00:00', '2024-01-06 08:00:00')
+-- delete from rental where 
 
 -- AddPayment( kiểm tra thông tin khách hàng.. nhớ kiểm tra mấy cái liên quan)
 DELIMITER //
