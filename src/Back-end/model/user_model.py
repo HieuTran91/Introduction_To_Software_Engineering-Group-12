@@ -124,12 +124,12 @@ class user_model():
             result = self.cur.fetchall()
             if len(result)>0:
                 #return make_response({"payload": result}, 201)
-                result = {"data":result, "status_code": 201}
+                result = {"data":result, "status_code": 201} 
                 return json.dumps(result)
         except Exception as e:
             #return make_response({"message": "Failed: " + str(e)}, 400)
             result = {"data":str(e), "status_code": 400}
-            return json.dumps(result)
+            return json.dumps(result) 
 
     #thêm thanh toán
     def add_payment_model(self, data):
