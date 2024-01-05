@@ -1,34 +1,20 @@
+import '../widgets/ninetysevenlist_item_widget.dart';
 import 'package:flutter/material.dart';
-import 'dart:ui';
-import 'package:vivu/lib/model/home_model.dart';
-import 'package:vivu/lib/controller/home_controller.dart';
-import 'package:vivu/lib/theme/border.dart';
-import 'package:vivu/theme/button.dart';
-import 'package:vivu/theme/theme.dart';
+import 'package:vivu/core/app_export.dart';
+import 'package:vivu/screen/list_car_page.dart';
+import 'package:vivu/screen/recent_history_page.dart';
+import 'package:vivu/widgets/custom_bottom_bar.dart';
 
-class HomeScreen extends StatefulWidget {
-  @override
-  _HomeScreenState createState() => _HomeScreenState();
-}
+class HomeScreen extends StatelessWidget {
+  HomeScreen({Key? key})
+      : super(
+          key: key,
+        );
 
-class _HomeScreenState extends State<HomeScreen> {
-  late HomeController controller;
-
-  @override
-  void initState() {
-    controller = HomeController();
-    controller.getHomeData();
-    super.initState();
-  }
+  GlobalKey<NavigatorState> navigatorKey = GlobalKey();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: _buildUI(),
-    );
-  }
-
-  Widget _buildUI() {
     return SafeArea(
       child: Scaffold(
         resizeToAvoidBottomInset: false,
@@ -36,11 +22,11 @@ class _HomeScreenState extends State<HomeScreen> {
           width: double.maxFinite,
           child: Column(
             children: [
-              _buildList(context),
+              _buildNinetySevenList(context),
               SizedBox(height: 90.v),
               _buildHotDealsRow(context),
               SizedBox(height: 10.v),
-              _buildStack(context),
+              _buildNinetyNineStack(context),
               SizedBox(height: 5.v),
             ],
           ),
@@ -51,29 +37,22 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   /// Section Widget
-  Widget _buildList(BuildContext context) {
+  Widget _buildNinetySevenList(BuildContext context) {
     return SizedBox(
       height: 406.v,
-      child: Consumer<HomeProvider>(
-        builder: (context, provider, child) {
-          return ListView.separated(
-            scrollDirection: Axis.horizontal,
-            separatorBuilder: (
-              context,
-              index,
-            ) {
-              return SizedBox(
-                width: 1.h,
-              );
-            },
-            itemCount: itemList.length,
-            itemBuilder: (context, index) {
-              ListItemModel model = itemList[index];
-              return ListItemWidget(
-                model,
-              );
-            },
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        separatorBuilder: (
+          context,
+          index,
+        ) {
+          return SizedBox(
+            width: 1.h,
           );
+        },
+        itemCount: 6,
+        itemBuilder: (context, index) {
+          return NinetysevenlistItemWidget();
         },
       ),
     );
@@ -87,13 +66,12 @@ class _HomeScreenState extends State<HomeScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            "lbl_hot_deals".tr,
-            style: TextTheme(
-                titleLarge), //CustomTextStyles.titleLargeErrorContainer,
+            "Hot deals",
+            style: CustomTextStyles.titleLargeErrorContainer,
           ),
           Text(
-            "lbl_view_all".tr,
-            style: TextTheme(titleLarge),
+            "View all...",
+            style: CustomTextStyles.titleLargePrimaryMedium,
           ),
         ],
       ),
@@ -101,7 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   /// Section Widget
-  Widget _buildStack(BuildContext context) {
+  Widget _buildNinetyNineStack(BuildContext context) {
     return Card(
       clipBehavior: Clip.antiAlias,
       elevation: 0,
@@ -130,9 +108,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   top: 30.v,
                 ),
                 child: Text(
-                  "lbl_q7".tr,
-                  style: TextTheme(
-                      titleSmall), //CustomTextStyles.titleSmallErrorContainerBold15,
+                  "Q7",
+                  style: CustomTextStyles.titleSmallErrorContainerBold15,
                 ),
               ),
             ),
@@ -141,18 +118,16 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Padding(
                 padding: EdgeInsets.only(left: 1.h),
                 child: Text(
-                  "lbl_audi".tr,
-                  style: TextTheme(
-                      titleSmall), //CustomTextStyles.titleSmallErrorContainerBold,
+                  "AUDI",
+                  style: CustomTextStyles.titleSmallErrorContainerBold,
                 ),
               ),
             ),
             Align(
               alignment: Alignment.topRight,
               child: Text(
-                "lbl_14_99".tr,
-                style: TextTheme(
-                    titleSmall), //CustomTextStyles.titleSmallErrorContainer,
+                "14.99",
+                style: CustomTextStyles.titleSmallErrorContainer,
               ),
             ),
             CustomImageView(
@@ -176,5 +151,33 @@ class _HomeScreenState extends State<HomeScreen> {
             navigatorKey.currentContext!, getCurrentRoute(type));
       },
     );
+  }
+
+  ///Handling route based on bottom click actions
+  String getCurrentRoute(BottomBarEnum type) {
+    switch (type) {
+      case BottomBarEnum.Dashiconsscreenoptions:
+        return AppRoutes.listCarPage;
+      case BottomBarEnum.Claritynotificationsolid:
+        return AppRoutes.recentHistoryPage;
+      case BottomBarEnum.Carbonlocationfilled:
+        return "/";
+      case BottomBarEnum.Cisettingsfilled:
+        return "/";
+      default:
+        return "/";
+    }
+  }
+
+  ///Handling page based on route
+  Widget getCurrentPage(String currentRoute) {
+    switch (currentRoute) {
+      case AppRoutes.listCarPage:
+        return ListCarPage();
+      case AppRoutes.recentHistoryPage:
+        return RecentHistoryPage();
+      default:
+        return DefaultWidget();
+    }
   }
 }

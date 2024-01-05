@@ -1,36 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:vivu/lib/screen/home_screen.dart';
-import 'package:vivu/lib/theme/theme.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter/scheduler.dart';
+import 'core/app_export.dart';
 
+var globalMessengerKey = GlobalKey<ScaffoldMessengerState>();
 void main() {
-  runApp(const MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
+
+  ///Please update theme as per your need if required.
+  ThemeHelper().changeTheme('primary');
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      theme: ThemeData(
-        colorScheme: ColorScheme.primary,
-        useMaterial3: true,
-      ),
-      home:MyHomePage(),
+    return Sizer(
+      builder: (context, orientation, deviceType) {
+        return MaterialApp(
+          theme: theme,
+          title: 'vivu',
+          debugShowCheckedModeBanner: false,
+          initialRoute: AppRoutes.launchScreen,
+          routes: AppRoutes.routes,
+        );
+      },
     );
   }
 }
-
-class MyHomePage extends StatefulWidget {
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-
-  @override
-  Widget build(BuildContext context) {
-
-    return Scaffold(body: HomeScreen(),);
-}}

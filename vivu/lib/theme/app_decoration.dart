@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'dart:ui';
-import 'package:vivu/lib/theme/theme.dart';
+import 'package:vivu/core/app_export.dart';
 
 class AppDecoration {
+  // Fill decorations
   static BoxDecoration get fillErrorContainer => BoxDecoration(
         color: theme.colorScheme.errorContainer.withOpacity(1),
       );
@@ -185,8 +185,8 @@ class BorderRadiusStyle {
       );
 }
 
-StrokeAlign get strokeAlignInside => StrokeAlign.inside;
+double get strokeAlignInside => BorderSide.strokeAlignInside;
 
-StrokeAlign get strokeAlignCenter => StrokeAlign.center;
+double get strokeAlignCenter => BorderSide.strokeAlignCenter;
 
-StrokeAlign get strokeAlignOutside => StrokeAlign.outside;
+double get strokeAlignOutside => BorderSide.strokeAlignOutside;
