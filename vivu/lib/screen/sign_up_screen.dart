@@ -15,6 +15,8 @@ class SignUpScreen extends StatelessWidget {
 
   TextEditingController phoneNumberEditTextController = TextEditingController();
 
+  TextEditingController dobEditTextController = TextEditingController();
+
   TextEditingController passwordEditTextController = TextEditingController();
 
   TextEditingController addressEditTextController = TextEditingController();
@@ -40,7 +42,7 @@ class SignUpScreen extends StatelessWidget {
                 child: Stack(
                   alignment: Alignment.bottomCenter,
                   children: [
-                    _buildLoginStack(context),
+                    _buildSignupStack(context),
                     Align(
                       alignment: Alignment.bottomCenter,
                       child: Container(
@@ -78,43 +80,44 @@ class SignUpScreen extends StatelessWidget {
                             SizedBox(height: 17.v),
                             _buildFullNameEditText(context),
                             SizedBox(height: 19.v),
-                            Container(
-                              margin: EdgeInsets.only(
-                                left: 1.h,
-                                right: 9.h,
-                              ),
-                              padding: EdgeInsets.symmetric(
-                                horizontal: 19.h,
-                                vertical: 9.v,
-                              ),
-                              decoration: AppDecoration.outlineGray.copyWith(
-                                borderRadius: BorderRadiusStyle.roundedBorder22,
-                              ),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsets.only(top: 3.v),
-                                    child: Text(
-                                      "DOB",
-                                      style:
-                                          CustomTextStyles.bodyMediumGray40001,
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsets.only(
-                                      left: 9.h,
-                                      top: 3.v,
-                                    ),
-                                    child: Text(
-                                      "dd/mm/yyyy",
-                                      style:
-                                          CustomTextStyles.bodyMediumGray40001,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                            _buildDOBEditText(context),
+                            // Container(
+                            //   margin: EdgeInsets.only(
+                            //     left: 1.h,
+                            //     right: 9.h,
+                            //   ),
+                            //   padding: EdgeInsets.symmetric(
+                            //     horizontal: 19.h,
+                            //     vertical: 9.v,
+                            //   ),
+                            //   decoration: AppDecoration.outlineGray.copyWith(
+                            //     borderRadius: BorderRadiusStyle.roundedBorder22,
+                            //   ),
+                            //   child: Row(
+                            //     mainAxisSize: MainAxisSize.max,
+                            //     children: [
+                            //       Padding(
+                            //         padding: EdgeInsets.only(top: 3.v),
+                            //         child: Text(
+                            //           "DOB",
+                            //           style:
+                            //               CustomTextStyles.bodyMediumGray40001,
+                            //         ),
+                            //       ),
+                            //       Padding(
+                            //         padding: EdgeInsets.only(
+                            //           left: 9.h,
+                            //           top: 3.v,
+                            //         ),
+                            //         child: Text(
+                            //           "dd/mm/yyyy",
+                            //           style:
+                            //               CustomTextStyles.bodyMediumGray40001,
+                            //         ),
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
                             SizedBox(height: 19.v),
                             _buildPhoneNumberEditText(context),
                             SizedBox(height: 19.v),
@@ -227,7 +230,7 @@ class SignUpScreen extends StatelessWidget {
   }
 
   /// Section Widget
-  Widget _buildLoginStack(BuildContext context) {
+  Widget _buildSignupStack(BuildContext context) {
     return Align(
       alignment: Alignment.topCenter,
       child: SizedBox(
@@ -264,6 +267,20 @@ class SignUpScreen extends StatelessWidget {
       child: CustomTextFormField(
         controller: fullNameEditTextController,
         hintText: "Full name",
+        borderDecoration: TextFormFieldStyleHelper.outlineGray,
+      ),
+    );
+  }
+
+  Widget _buildDOBEditText(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.only(
+        left: 1.h,
+        right: 9.h,
+      ),
+      child: CustomTextFormField(
+        controller: dobEditTextController,
+        hintText: "dd/mm/yyyy",
         borderDecoration: TextFormFieldStyleHelper.outlineGray,
       ),
     );
@@ -402,7 +419,6 @@ class SignUpScreen extends StatelessWidget {
       ),
       onPressed: () {
         if (_formKey.currentState!.validate()) {
-          // Assuming you have a route named 'verificationScreen' set up
           Navigator.pushNamed(context, AppRoutes.verificationScreen);
         }
       },

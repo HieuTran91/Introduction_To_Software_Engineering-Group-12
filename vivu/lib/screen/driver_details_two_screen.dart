@@ -105,7 +105,13 @@ class DriverDetailsTwoScreen extends StatelessWidget {
                                   CustomElevatedButton(
                                       text: "Check out",
                                       margin: EdgeInsets.symmetric(
-                                          horizontal: 36.h)),
+                                          horizontal: 36.h),
+                                          onPressed: () {
+                                            if (_formKey.currentState!.validate()) {
+                                              // Assuming you have a route named 'paymentOneScreen' set up
+                                              Navigator.pushNamed(context, AppRoutes.paymentOneScreen);
+                                            }
+                                          },),
                                   SizedBox(height: 5.v)
                                 ])))))));
   }
@@ -156,6 +162,7 @@ class DriverDetailsTwoScreen extends StatelessWidget {
 
   /// Navigates back to the previous screen.
   onTapArrowLeft(BuildContext context) {
-    Navigator.pop(context);
+    //Navigator.pop(context);
+    Navigator.pushNamed(context, AppRoutes.homeScreen);
   }
 }

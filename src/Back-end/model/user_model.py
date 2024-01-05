@@ -1,7 +1,6 @@
 from flask import make_response
 from lib import app
 import mysql.connector
-import jsonify
 import hashlib
 import json
 import pandas as pd
@@ -18,7 +17,7 @@ class user_model():
             self.mydb = mysql.connector.connect(
 	        host="localhost",
 	        user = "root",
-        	password="Hieu0504@",
+        	password="131003",
 	        database="VIVUAPP")
             self.mydb.autocommit = True
             self.cur = self.mydb.cursor(dictionary=True)

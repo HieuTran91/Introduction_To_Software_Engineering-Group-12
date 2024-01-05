@@ -11,11 +11,6 @@ def hash_password(password):
     hash_object.update(password.encode("utf-8"))
     return hash_object.hexdigest()
 
-app.secret_key = secrets.token_urlsafe(32)
-app.config["SESSION_PERMANENT"] = False
-app.config["SESSION_TYPE"] = "filesystem"
-Session(app)
-
 obj = user_model()
 
 @app.route('/')
