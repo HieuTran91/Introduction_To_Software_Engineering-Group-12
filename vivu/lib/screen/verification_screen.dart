@@ -149,6 +149,10 @@ class VerificationScreen extends StatelessWidget {
             SizedBox(height: 31.v),
             CustomOutlinedButton(
               text: "Sign up",
+              onPressed: () {
+                // Assuming you have a route named 'verificationScreen' set up
+                Navigator.pushNamed(context, AppRoutes.loginScreen);
+              },
             ),
             SizedBox(height: 33.v),
           ],

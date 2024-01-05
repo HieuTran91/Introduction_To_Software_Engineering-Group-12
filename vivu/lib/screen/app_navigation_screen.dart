@@ -125,7 +125,7 @@ class AppNavigationScreen extends StatelessWidget {
                           context,
                           screenTitle: "fa-solid:edit",
                           onTapScreenTitle: () => onTapScreenTitle(
-                              context, AppRoutes.faSolidEditScreen),
+                              context, AppRoutes.solidEditScreen),
                         ),
                         _buildScreenTitle(
                           context,

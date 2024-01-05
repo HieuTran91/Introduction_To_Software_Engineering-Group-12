@@ -1,4 +1,4 @@
-import '../widgets/seatstext_item_widget.dart';
+import '../widgets/attribute_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:vivu/core/app_export.dart';
 import 'package:vivu/widgets/app_bar/appbar_leading_image.dart';
@@ -32,7 +32,7 @@ class EditCarInfoScreen extends StatelessWidget {
                                 child: Text("Features",
                                     style: CustomTextStyles.titleLargeMedium))),
                         SizedBox(height: 9.v),
-                        _buildSeatsText(context),
+                        _buildAttribute(context),
                         SizedBox(height: 17.v),
                         _buildEditInfo(context),
                         SizedBox(height: 5.v)
@@ -88,7 +88,7 @@ class EditCarInfoScreen extends StatelessWidget {
   }
 
   /// Section Widget
-  Widget _buildSeatsText(BuildContext context) {
+  Widget _buildAttribute(BuildContext context) {
     return GridView.builder(
         shrinkWrap: true,
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -99,7 +99,7 @@ class EditCarInfoScreen extends StatelessWidget {
         physics: NeverScrollableScrollPhysics(),
         itemCount: 6,
         itemBuilder: (context, index) {
-          return SeatstextItemWidget();
+          return AttributeItemWidget();
         });
   }
 

@@ -1,4 +1,4 @@
-import '../widgets/ninetysevenlist_item_widget.dart';
+import '../widgets/carlist_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:vivu/core/app_export.dart';
 import 'package:vivu/screen/list_car_page.dart';
@@ -22,11 +22,11 @@ class HomeScreen extends StatelessWidget {
           width: double.maxFinite,
           child: Column(
             children: [
-              _buildNinetySevenList(context),
+              _buildList(context),
               SizedBox(height: 90.v),
               _buildHotDealsRow(context),
               SizedBox(height: 10.v),
-              _buildNinetyNineStack(context),
+              _buildStack(context),
               SizedBox(height: 5.v),
             ],
           ),
@@ -37,7 +37,7 @@ class HomeScreen extends StatelessWidget {
   }
 
   /// Section Widget
-  Widget _buildNinetySevenList(BuildContext context) {
+  Widget _buildList(BuildContext context) {
     return SizedBox(
       height: 406.v,
       child: ListView.separated(
@@ -52,7 +52,7 @@ class HomeScreen extends StatelessWidget {
         },
         itemCount: 6,
         itemBuilder: (context, index) {
-          return NinetysevenlistItemWidget();
+          return CarlistItemWidget();
         },
       ),
     );
@@ -79,7 +79,7 @@ class HomeScreen extends StatelessWidget {
   }
 
   /// Section Widget
-  Widget _buildNinetyNineStack(BuildContext context) {
+  Widget _buildStack(BuildContext context) {
     return Card(
       clipBehavior: Clip.antiAlias,
       elevation: 0,

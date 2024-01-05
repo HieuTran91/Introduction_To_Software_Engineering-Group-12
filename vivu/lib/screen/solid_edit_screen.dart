@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:vivu/core/app_export.dart';
 
-class FaSolidEditScreen extends StatelessWidget {
-  const FaSolidEditScreen({Key? key})
+class SolidEditScreen extends StatelessWidget {
+  const SolidEditScreen({Key? key})
       : super(
           key: key,
         );

@@ -15,7 +15,7 @@ import 'package:vivu/screen/payment_2_master_card_screen.dart';
 import 'package:vivu/screen/driver_details_two_screen.dart';
 import 'package:vivu/screen/driver_details_screen.dart';
 import 'package:vivu/screen/car_rental_statistics_screen.dart';
-import 'package:vivu/screen/fa_solid_edit_screen.dart';
+import 'package:vivu/screen/solid_edit_screen.dart';
 import 'package:vivu/screen/payment_2_visa_card_screen.dart';
 import 'package:vivu/screen/payment_2_paypal_screen.dart';
 import 'package:vivu/screen/payment_2_america_express_screen.dart';
@@ -60,7 +60,7 @@ class AppRoutes {
   static const String carRentalStatisticsScreen =
       '/car_rental_statistics_screen';
 
-  static const String faSolidEditScreen = '/fa_solid_edit_screen';
+  static const String solidEditScreen = '/solid_edit_screen';
 
   static const String payment2VisaCardScreen = '/payment_2_visa_card_screen';
 
@@ -88,7 +88,7 @@ class AppRoutes {
     driverDetailsTwoScreen: (context) => DriverDetailsTwoScreen(),
     driverDetailsScreen: (context) => DriverDetailsScreen(),
     carRentalStatisticsScreen: (context) => CarRentalStatisticsScreen(),
-    faSolidEditScreen: (context) => FaSolidEditScreen(),
+    solidEditScreen: (context) => SolidEditScreen(),
     payment2VisaCardScreen: (context) => Payment2VisaCardScreen(),
     payment2PaypalScreen: (context) => Payment2PaypalScreen(),
     payment2AmericaExpressScreen: (context) => Payment2AmericaExpressScreen(),

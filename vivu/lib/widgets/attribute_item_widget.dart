@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:vivu/core/app_export.dart';
 
 // ignore: must_be_immutable
-class SeatstextItemWidget extends StatelessWidget {
-  const SeatstextItemWidget({Key? key})
+class AttributeItemWidget extends StatelessWidget {
+  const AttributeItemWidget({Key? key})
       : super(
           key: key,
         );

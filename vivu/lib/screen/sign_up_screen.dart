@@ -400,6 +400,12 @@ class SignUpScreen extends StatelessWidget {
         left: 1.h,
         right: 9.h,
       ),
+      onPressed: () {
+        if (_formKey.currentState!.validate()) {
+          // Assuming you have a route named 'verificationScreen' set up
+          Navigator.pushNamed(context, AppRoutes.verificationScreen);
+        }
+      },
     );
   }
 }

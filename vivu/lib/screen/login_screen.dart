@@ -200,10 +200,15 @@ class _LoginScreenState extends State<LoginScreen> {
               borderDecoration: TextFormFieldStyleHelper.outlineGray,
             ),
             SizedBox(height: 19.v),
-            ElevatedButton(
-              onPressed: () =>
-                  onSubmit(context), // Use a lambda function to call onSubmit
-              child: Text("Log in"),
+            CustomOutlinedButton(
+              text: "Log in",
+              decoration: BoxDecoration(
+                color: ColorSchemes.primaryColorScheme.onPrimary,
+              ),
+              onPressed: () {
+                // Assuming you have a route named 'verificationScreen' set up
+                Navigator.pushNamed(context, AppRoutes.homeScreen);
+              },
             ),
             SizedBox(height: 19.v),
             Text(

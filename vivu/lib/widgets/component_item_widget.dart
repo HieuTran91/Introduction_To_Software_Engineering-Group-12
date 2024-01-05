@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:vivu/core/app_export.dart';
 
 // ignore: must_be_immutable
-class AmgcomponentItemWidget extends StatelessWidget {
-  const AmgcomponentItemWidget({Key? key})
+class ComponentItemWidget extends StatelessWidget {
+  const ComponentItemWidget({Key? key})
       : super(
           key: key,
         );
@@ -77,7 +77,7 @@ class AmgcomponentItemWidget extends StatelessWidget {
                 ),
                 SizedBox(height: 5.v),
                 Text(
-                  "1 dAY",
+                  "1 day",
                   style: CustomTextStyles.titleSmallGray400,
                 ),
               ],
