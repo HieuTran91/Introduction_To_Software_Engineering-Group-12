@@ -54,20 +54,19 @@ proc: BEGIN
 END //
 DELIMITER ;
 
+-- drop PROCEDURE InsertRental;
+
 DELIMITER //
 CREATE PROCEDURE InsertRental(
 	IN p_cusID char(5),
 	IN p_carID CHAR(5),
 	IN p_pickupTime DATETIME,
-	IN p_returnTime DATETIME,
-	IN p_rentalPrice FLOAT,
-	IN p_rentalLocationID CHAR(5),
-	IN p_paymentID CHAR(5)
+	IN p_returnTime DATETIME
 )
 proc: BEGIN
 	IF not EXISTS(SELECT 1 FROM AccountCar WHERE p_cusID = accountID) then
 		ROLLBACK;
-		Signal SQLSTATE '23000' SET MESSAGE_TEXT = 'The phone number is not exists';
+		Signal SQLSTATE '23000' SET MESSAGE_TEXT = 'The cusstomer is not exists';
 		leave proc;
 	end if;
     IF exists (SELECT 1 FROM rental WHERE customerID = p_cusID and rentalStatus = 1)  then
@@ -85,11 +84,11 @@ proc: BEGIN
         ROLLBACK;
 		leave proc;
 	end if;
-	if not EXISTS(SELECT 1 FROM Payment WHERE p_paymentID = paymentID) then
-        signal SQLSTATE '23000' SET MESSAGE_TEXT = "The user doesn't not payment";
-        ROLLBACK;
-		leave proc;
-	end if;
+-- 	if not EXISTS(SELECT 1 FROM Payment WHERE p_paymentID = paymentID) then
+--         signal SQLSTATE '23000' SET MESSAGE_TEXT = "The user doesn't not payment";
+--         ROLLBACK;
+-- 		leave proc;
+-- 	end if;
     if ((SELECT carStatus FROM Car WHERE p_carID = carID) = 0) then
 		signal SQLSTATE '23000' SET MESSAGE_TEXT = "The car can not rent";
         ROLLBACK;
@@ -97,8 +96,8 @@ proc: BEGIN
 	end if;
     
     SET @p_rentalID = (SELECT RIGHT(CONCAT('00000', CAST(IFNULL(MAX(rentalID), 0) + 1 AS CHAR(5))), 5) FROM Rental);
-    INSERT INTO Rental (rentalID, carID, customerID, pickupTime, returnTime, rentalPrice, rentalStatus, rentalLocationID, paymentID)
-    VALUES (@p_rentalID, p_carID, p_cusID, p_pickupTime, p_returnTime, p_rentalPrice, 1, p_rentalLocationID, p_paymentID);
+    INSERT INTO Rental (rentalID, carID, customerID, pickupTime, returnTime, rentalPrice, rentalStatus)
+    VALUES (@p_rentalID, p_carID, p_cusID, p_pickupTime, p_returnTime, p_rentalPrice, 1);
     
     Update Car
     set carStatus = 0
@@ -107,6 +106,8 @@ proc: BEGIN
     select rentalID from Rental where rentalID = @p_rentalID;
 END //
 DELIMITER ;
+
+-- CALL InsertRental('00004', '00014', '2024-01-01 08:00:00', '2024-01-06 08:00:00', 10000, null, null)
 
 -- AddPayment( kiểm tra thông tin khách hàng.. nhớ kiểm tra mấy cái liên quan)
 DELIMITER //
@@ -147,6 +148,8 @@ proc: BEGIN
 END //
 DELIMITER ;
 
+-- drop PROCEDURE editCar
+
 DELIMITER //
 CREATE PROCEDURE editCar(
 	IN p_carID char(5),
@@ -155,7 +158,7 @@ CREATE PROCEDURE editCar(
 	IN p_seats INT,
 	IN p_transmission NVARCHAR(30),
 	IN p_fuelType NVARCHAR(15),
-	IN p_yearRelease YEAR,
+	IN p_yearRelease int,
 	IN p_price FLOAT
 )
 proc: BEGIN
@@ -172,6 +175,10 @@ proc: BEGIN
     select carID from Car where p_carID = carID;
 END//
 DELIMITER ;
+
+-- select * from Car;
+-- call editCar ('00015', 'hkktt', 'HKT', 4, 'auto', '92', 2000, 100000);
+-- select * from Car;
 
 DELIMITER //
 CREATE PROCEDURE GetCurrentTrip(
@@ -206,6 +213,8 @@ proc: BEGIN
     WHERE customerID = customer_id_param and rentalStatus = 0;
 END //
 DELIMITER ;
+
+-- call GetTripHistory('00006');
 
 DELIMITER //
 CREATE PROCEDURE GetRentalHistory(IN car_owner_ID CHAR(5))

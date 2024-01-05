@@ -4,7 +4,7 @@ import mysql.connector
 import jsonify
 import hashlib
 import json
-import numpy as np
+import pandas as pd
 # from flask import jsonify
 
 def hash_password(password):
@@ -57,32 +57,37 @@ class user_model():
             return json.dumps(result)
             # return make_response({"message": "Failed: " + str(e)}, 401)
  
+# command = '''
+#   insert into Movie (title,release_date,rating ,overview ,length ,country ,backdrop_path ,poster_path ,isSeries ,video_link)
+#   values {0}
+#   '''
+# temp = shit.format(title,movie_data['first_air_date'],int(movie_data['vote_average']),overview,runtime, country, backdrop, poster)
     # sửa thông tin xe
     def edit_car_model(self, data, carID):
-        try:    
-            self.cur.execute(f"CALL editCar ('{carID}', '{data['carCompany']}', '{data['model']}', '{data['seats']}', '{data['transmission']}', '{data['transmission']}', '{data['fuelType']}', '{data['yearRelease']}', '{data['price']}'))")
+        try:
+            # query = f"CALL editCar('{carID}', '{data['carCompany']}', '{data['model']}', {int(data['seats'])}, '{data['transmission']}', '{data['fuelType']}', {int(data['yearRelease'])}, {float(data['price'])});"
+            # print(query)
+            self.cur.execute(f"CALL editCar('{carID}', '{data['carCompany']}', '{data['model']}', {int(data['seats'])}, '{data['transmission']}', '{data['fuelType']}', {int(data['yearRelease'])}, {float(data['price'])});")
             result = self.cur.fetchall()
             if len(result)>0:
-                #return make_response({"payload": result}, 201)
                 result = {"data":result, "status_code": 201}
                 return json.dumps(result)
-        except Exception as e:
-            # return make_response({"message": "Failed: " + str(e)}, 202)
+        except Exception as e: 
             result = {"data":str(e), "status_code": 202}
             return json.dumps(result)
  
-    def add_new_car_model(self, data):
-        try:
-            self.cur.execute(f"CALL addNewCar('{data['carCompany']}', '{data['model']}', '{data['seats']}', '{data['transmission']}', '{data['fuelType']}', '{data['yearRelease']}', '{data['price']}', '{data['phoneNumber']}')")
-            result = self.cur.fetchall()
-            if len(result)>0:
-                #return make_response({"payload": result}, 201)
-                result = {"data":result, "status_code": 201}
-                return json.dumps(result)
-        except Exception as e:
-            # return make_response({"message": "Failed: " + str(e)}, 400)
-            result = {"data":str(e), "status_code": 400}
-            return json.dumps(result)
+    # def add_new_car_model(self, data, cusID):
+    #     try:
+    #         self.cur.execute(f"CALL addNewCar('{data['carCompany']}', '{data['model']}', '{data['seats']}', '{data['transmission']}', '{data['fuelType']}', '{data['yearRelease']}', '{data['price']}', '{cusID}')")
+    #         result = self.cur.fetchall()
+    #         if len(result)>0:
+    #             #return make_response({"payload": result}, 201)
+    #             result = {"data":result, "status_code": 201}
+    #             return json.dumps(result)
+    #     except Exception as e:
+    #         # return make_response({"message": "Failed: " + str(e)}, 400)
+    #         result = {"data":str(e), "status_code": 400}
+    #         return json.dumps(result)
 
     # xem thông tin xe 'oki'
     def get_car_model(self):
@@ -111,11 +116,11 @@ class user_model():
             #return make_response({"message": "Failed: " + str(e)}, 204)
             result = {"data":str(e), "status_code": 204}
             return json.dumps(result)
-
+ 
     #thêm thuê xe 
     def add_rental_model(self, data, cusID, carID):
         try:
-            self.cur.execute(f"CALL InsertRental('{cusID}', '{carID}', '{data['pickupTime']}', '{data['returnTime']}', '{data['rentalPrice']}', '{data['retalLocationID']}', '{data['paymentID']}')")
+            self.cur.execute(f"CALL InsertRental('{cusID}', '{carID}', '{pd.to_datetime(data['pickupTime'])}', '{pd.to_datetime(data['returnTime'])}')")
             result = self.cur.fetchall()
             if len(result)>0:
                 #return make_response({"payload": result}, 201)
@@ -129,6 +134,7 @@ class user_model():
     #thêm thanh toán
     def add_payment_model(self, data):
         try:
+            # print(data)
             self.cur.execute(f"CALL AddPayment('{data['carID']}', '{data['paymentMethod']}', '{data['paymentDate']}', '{data['discountCode']}')")
             result = self.cur.fetchall()
             if len(result)>0:
@@ -146,6 +152,10 @@ class user_model():
             self.cur.execute(f"CALL GetCurrentTrip('{cusID}')")
             result = self.cur.fetchall()
             if len(result)>0:
+                for i in range(len(result)):
+                    print(result[i]['pickupTime']) 
+                    result[i]['pickupTime'] = str(result[0]['pickupTime'])
+                    result[i]['returnTime'] = str(result[0]['returnTime'])
                 #return make_response({"payload": result}, 200)
                 result = {"data":result, "status_code": 200}
                 return json.dumps(result)
@@ -159,6 +169,10 @@ class user_model():
             self.cur.execute(f"CALL GetCurrentRentalCarList('{cusID}')")
             result = self.cur.fetchall()
             if len(result)>0:
+                for i in range(len(result)):
+                    print(result[i]['pickupTime']) 
+                    result[i]['pickupTime'] = str(result[0]['pickupTime'])
+                    result[i]['returnTime'] = str(result[0]['returnTime'])
                 #return make_response({"payload": result}, 200)
                 result = {"data":result, "status_code": 200}
                 return json.dumps(result)
@@ -174,6 +188,10 @@ class user_model():
             result = self.cur.fetchall()
             if len(result)>0:
                 #return make_response({"payload": result}, 200)
+                for i in range(len(result)):
+                    print(result[i]['pickupTime']) 
+                    result[i]['pickupTime'] = str(result[0]['pickupTime'])
+                    result[i]['returnTime'] = str(result[0]['returnTime'])
                 result = {"data":result, "status_code": 200}
                 return json.dumps(result)
         except Exception as e:
@@ -187,6 +205,11 @@ class user_model():
             result = self.cur.fetchall()
             if len(result)>0:
                 #return make_response({"payload": result}, 200)
+                # print(len(result))
+                for i in range(len(result)):
+                    print(result[i]['pickupTime']) 
+                    result[i]['pickupTime'] = str(result[0]['pickupTime'])
+                    result[i]['returnTime'] = str(result[0]['returnTime'])
                 result = {"data":result, "status_code": 200}
                 return json.dumps(result)
         except Exception as e:

@@ -33,21 +33,21 @@ VALUES
 
 INSERT INTO car (CarID, carCompany, model, seats, transmission, fuelType, yearRelease, price, carStatus, carownerID)
 VALUES
-('00001', 'BAIC', 'BAIC BEIJING X7 2022', 5, 'automatic transmission', 'Petrol', 2022, 1370000, 1, '00005'),
-('00002', 'BMW', 'BMW 320i 2018', 5, 'automatic transmission', 'Petrol', 2018, 1495000, 0, '00005'),
-('00003', 'BMW', 'BMW 430i GRAN COUPE', 5, 'automatic transmission', 'Petrol', 2021, 2680000, 0, '00005'),
-('00004', 'VINFAST', 'VINFAST LUV SA 2.0', 7, 'automatic transmission', 'Petrol', 2021, 1346000, 0, '00005'),
-('00005', 'VINFAST', 'VINFAST VF E34', 5, 'automatic transmission', 'Electric', 2022, 711000, 0, '00005'),
+('00001', 'BAIC', 'BAIC BEIJING X7 2022', 5, 'automatic transmission', 'Petrol', 2022, 1370000, 0, '00005'),
+('00002', 'BMW', 'BMW 320i 2018', 5, 'automatic transmission', 'Petrol', 2018, 1495000, 1, '00005'),
+('00003', 'BMW', 'BMW 430i GRAN COUPE', 5, 'automatic transmission', 'Petrol', 2021, 2680000, 1, '00005'),
+('00004', 'VINFAST', 'VINFAST LUV SA 2.0', 7, 'automatic transmission', 'Petrol', 2021, 1346000, 1, '00005'),
+('00005', 'VINFAST', 'VINFAST VF E34', 5, 'automatic transmission', 'Electric', 2022, 711000, 1, '00005'),
 ('00006', 'MERCEDES', 'MERCEDES C200', 5, 'automatic transmission', 'Petrol', 2021, 2010000, 1, '00002'),
-('00007', 'MERCEDES', 'MERCEDES C200 EXCLUSIVE', 5, 'automatic transmission', 'Petrol', 2021, 2246000, 0, '00002'),
-('00008', 'VINFAST', 'VINFAST FADIL', 5, 'automatic transmission', 'Petrol', 2021, 746000, 0, '00002'),
-('00009', 'MERCEDES', 'MERCEDES C300', 4, 'automatic transmission', 'Petrol', 2018, 2021000, 0, '00002'),
-('00010', 'MERCEDES', 'MERCEDES C300 AMG', 5, 'automatic transmission', 'Petrol', 2018, 2469000, 0, '00005'),
+('00007', 'MERCEDES', 'MERCEDES C200 EXCLUSIVE', 5, 'automatic transmission', 'Petrol', 2021, 2246000, 1, '00002'),
+('00008', 'VINFAST', 'VINFAST FADIL', 5, 'automatic transmission', 'Petrol', 2021, 746000, 1, '00002'),
+('00009', 'MERCEDES', 'MERCEDES C300', 4, 'automatic transmission', 'Petrol', 2018, 2021000, 1, '00002'),
+('00010', 'MERCEDES', 'MERCEDES C300 AMG', 5, 'automatic transmission', 'Petrol', 2018, 2469000, 1, '00005'),
 ('00011', 'MAZDA', 'MAZDA CX30', 5, 'automatic transmission', 'Petrol', 2023, 1459000, 1, '00002'),
-('00012', 'MAZDA', 'MAZDA CX5 DELUXE', 5, 'automatic transmission', 'Petrol', 2021, 1370000, 0, '00002'),
-('00013', 'VINFAST', 'VINFAST VF8 ECO', 5, 'automatic transmission', 'Electric', 2022, 1459000, 0, '00002'),
+('00012', 'MAZDA', 'MAZDA CX5 DELUXE', 5, 'automatic transmission', 'Petrol', 2021, 1370000, 1, '00002'),
+('00013', 'VINFAST', 'VINFAST VF8 ECO', 5, 'automatic transmission', 'Electric', 2022, 1459000, 1, '00002'),
 ('00014', 'FORD', 'FORD RANGER WILDTRAK 4x4', 5, 'automatic transmission', 'Diesel', 2020, 1233000, 1, '00005'),
-('00015', 'FORD', 'FORD RANGER XLS 4x2', 5, 'automatic transmission', 'Diesel', 2021, 1196000, 0, '00005');
+('00015', 'FORD', 'FORD RANGER XLS 4x2', 5, 'automatic transmission', 'Diesel', 2021, 1196000, 1, '00005');
 
 INSERT INTO Discount (discountID, discountCode, discountPercent, expirationDate, discountDescription)
 VALUES
@@ -62,3 +62,10 @@ VALUES
 ('0002', '456 Đường Nguyễn Văn A, Quận 2, TP.HCM', '09:00:00', '18:00:00'),
 ('0003', '789 Đường Trần Hưng Đạo, Quận 3, TP.HCM', '08:00:00', '16:30:00'),
 ('0004', '101 Đường Phan Xích Long, Quận 4, TP.HCM', '10:30:00', '19:00:00');
+
+INSERT INTO Rental (rentalID, carID, customerID, pickupTime, returnTime, rentalStatus)
+VALUES
+('00001', '00001', '00001', '2024-01-05 08:30:00', '2024-01-05 17:00:00', 1),
+('00002', '00002', '00001', '2024-01-05 09:00:00', '2024-01-05 18:00:00', 0),
+('00003', '00003', '00001', '2024-01-05 08:00:00', '2024-01-05 16:30:00', 0),
+('00004', '00005', '00001', '2024-01-05 10:30:00', '2024-01-05 19:00:00', 0);

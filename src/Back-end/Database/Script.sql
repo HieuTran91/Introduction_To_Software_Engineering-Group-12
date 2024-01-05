@@ -12,7 +12,7 @@ CREATE TABLE Car
     seats int,
     transmission nvarchar(30),
     fuelType nvarchar(15),
-    yearRelease year,
+    yearRelease int,
     price float,
     carStatus boolean,
     carOwnerID char(5),

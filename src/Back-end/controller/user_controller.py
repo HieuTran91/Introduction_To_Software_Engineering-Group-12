@@ -25,11 +25,16 @@ def welcome():
 @app.route('/homepage')
 def homepage():
     result = obj.get_car_model()
-    return result.get_data()
+    if result == None:
+        return json.dumps({"msg": "Not found data"})
+    re_py = json.loads(result)
+    return json.dumps(re_py['data'])
 
 @app.route("/signup", methods = ["POST", "GET"])
 def signup():
     result = obj.signup_model(request.form)
+    if result == None:
+        return json.dumps({"msg": "Not found data"})
     re_py = json.loads(result)
     if re_py['status_code'] == 201:
         session['user'] = re_py['data'][0]['accountID']
@@ -39,6 +44,8 @@ def signup():
 @app.route("/login", methods = ["POST","GET"])
 def login():
     result = obj.login_model(request.form)
+    if result == None:
+        return json.dumps({"msg": "Not found data"})
     re_py = json.loads(result)
     if re_py['status_code'] == 200:
         session['user'] = re_py['data'][0]['accountID']
@@ -49,26 +56,38 @@ def login():
 def logout():
     session["user"] = None
     session["type"] = None
+    session['car'] = None
     return redirect("/")
 
 @app.route("/car", methods = ["POST", "GET"])
 def getCar():
     result = obj.get_detail_car_model(request.form)
+    if result == None:
+        return json.dumps({"msg": "Not found data"})
     re_py = json.loads(result)
     if re_py['status_code'] == 200:
-        session['car'] = result.get_data('carID')
+        session['car'] = re_py['data'][0]['carID']
     return json.dumps(re_py['data'])
-
+ 
 @app.route("/editcar", methods = ["POST", "GET"])
 def editCar():
     result = obj.edit_car_model(request.form, session['car'])
+    if result == None:
+        return json.dumps({"msg": "Not found data"})
     re_py = json.loads(result)
+    # if re_py['status_code'] == 201:
+    #     return json.dumps(re_py['data'])
     return json.dumps(re_py['data'])
-
+ 
+ 
 @app.route("/rentalcar", methods = ["POST", "GET"])
 def rentalCar():
     result = obj.add_rental_model(request.form, session["user"], session['car'])
+    if result == None:
+        return json.dumps({"msg": "Not found data"})
     re_py = json.loads(result)
+    # if re_py['status_code'] == 200:
+    #     return json.dumps(re_py['data'])
     return json.dumps(re_py['data'])
 
 # @app.route("/payment", methods = ["POST", "GET"])
@@ -78,23 +97,46 @@ def rentalCar():
 @app.route("/currentTrip", methods = ["POST", "GET"])
 def currentTrip():
     result = obj.current_trip_model(session["user"])
+    if result == None:
+        return json.dumps({"msg": "Not found data"})
     re_py = json.loads(result)
+    # if re_py['status_code'] == 200:
+    #     return json.dumps(re_py['data'])
     return json.dumps(re_py['data'])
 
 @app.route("/currentRentalTripList", methods = ["POST", "GET"])
 def currentRentalTripList():
     result = obj.current_rental_trip_list_model(session["user"])
+    if result == None:
+        return json.dumps({"msg": "Not found data"})
     re_py = json.loads(result)
+    # if re_py['status_code'] == 200:
+    #     return json.dumps(re_py['data'])
     return json.dumps(re_py['data'])
 
 @app.route("/rentalHistory", methods = ["POST", "GET"])
 def rentalHistory():
     result = obj.rental_history_model(session["user"])
+    if result == None:
+        return json.dumps({"msg": "Not found data"})
     re_py = json.loads(result)
+    # if re_py['status_code'] == 200:
+    #     return json.dumps(re_py['data'])
     return json.dumps(re_py['data'])
-
+  
 @app.route("/tripHistory", methods = ["POST", "GET"])
 def tripHistory():
-    result = obj.trip_history_model(session["user"])
+    result = obj.trip_history_model(session['user'])
+    if result == None:
+        return json.dumps({"msg": "Not found data"})
     re_py = json.loads(result)
+    # if re_py['status_code'] == 200:
+    #     return json.dumps(re_py['data'])
     return json.dumps(re_py['data'])
+    # print(result)
+    # if result is not None:
+    #     re_py = json.loads(result)
+    #     if re_py['status_code'] == 200:
+    #         return json.dumps(re_py['data'])
+    #     return json.dumps(re_py['data']) 
+    # return json.dumps({"msg": "Not found data"}) 
