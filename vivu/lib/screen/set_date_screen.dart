@@ -239,8 +239,8 @@ class SetDateScreen extends StatelessWidget {
     Navigator.pop(context);
   }
 
-  /// Navigates to the paymentOneScreen when the action is triggered.
+  /// Navigates to the driverDetailsScreen when the action is triggered.
   onTapBooking(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.paymentOneScreen);
+    Navigator.pushNamed(context, AppRoutes.driverDetailsScreen);
   }
 }

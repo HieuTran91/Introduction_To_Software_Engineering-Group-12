@@ -170,7 +170,14 @@ class DriverDetailsScreen extends StatelessWidget {
   /// Section Widget
   Widget _buildNext(BuildContext context) {
     return CustomElevatedButton(
-        text: "Next", margin: EdgeInsets.symmetric(horizontal: 36.h));
+        text: "Next", margin: EdgeInsets.symmetric(horizontal: 36.h),
+        onPressed: () {
+        if (_formKey.currentState!.validate()) {
+          // Assuming you have a route named 'driverDetailsTwoScreen' set up
+          Navigator.pushNamed(context, AppRoutes.driverDetailsTwoScreen);
+        }
+      },);
+        
   }
 
   /// Navigates back to the previous screen.

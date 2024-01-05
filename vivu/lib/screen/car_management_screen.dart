@@ -159,8 +159,8 @@ class CarManagementScreen extends StatelessWidget {
     Navigator.pop(context);
   }
 
-  /// Navigates to the setDateScreen when the action is triggered.
+  /// Navigates to the editCarScreen when the action is triggered.
   onTapConfirm(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.setDateScreen);
+    Navigator.pushNamed(context, AppRoutes.editCarInfoScreen);
   }
 }
