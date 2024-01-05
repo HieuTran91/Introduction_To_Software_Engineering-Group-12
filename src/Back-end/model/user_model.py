@@ -44,7 +44,7 @@ class user_model():
     #đăng nhập 
     def login_model(self, data):
         try:
-            password = hash_password(data['passwordAccount'])
+            password = hash_password(data['password'])
             self.cur.execute(f"CALL Login('{data['phoneNumber']}','{password}');")
             result = self.cur.fetchall()
             if len(result) > 0:

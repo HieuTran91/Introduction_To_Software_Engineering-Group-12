@@ -4,6 +4,7 @@ import 'package:vivu/widgets/custom_outlined_button.dart';
 import 'package:vivu/widgets/custom_text_form_field.dart';
 import 'package:vivu/controllers/account_controller.dart';
 
+
 class LoginScreen extends StatefulWidget {
   @override
   _LoginScreenState createState() => _LoginScreenState();
@@ -16,9 +17,11 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController passwordController = TextEditingController();
 
   Future<void> onSubmit(BuildContext context) async {
+    // print(phoneNumberController.text);
     if (await controller.validateAccount(
         phoneNumberController.text, passwordController.text)) {
       controller.login(context);
+
     } else {
       // show error
       ScaffoldMessenger.of(context)
@@ -207,7 +210,8 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               onPressed: () {
                 // Assuming you have a route named 'verificationScreen' set up
-                Navigator.pushNamed(context, AppRoutes.homeScreen);
+                // Navigator.pushNamed(context, AppRoutes.homeScreen);
+                onSubmit(context);
               },
             ),
             SizedBox(height: 19.v),
