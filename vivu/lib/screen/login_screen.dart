@@ -14,7 +14,6 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController phoneNumberController = TextEditingController();
 
   TextEditingController passwordController = TextEditingController();
-
   Future<void> onSubmit(BuildContext context) async {
     if (await controller.validateAccount(
         phoneNumberController.text, passwordController.text)) {
@@ -207,7 +206,8 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               onPressed: () {
                 // Assuming you have a route named 'verificationScreen' set up
-                Navigator.pushNamed(context, AppRoutes.homeScreen);
+                onSubmit(context);
+                // Navigator.pushNamed(context, AppRoutes.homeScreen);
               },
             ),
             SizedBox(height: 19.v),

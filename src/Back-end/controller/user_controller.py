@@ -11,11 +11,6 @@ def hash_password(password):
     hash_object.update(password.encode("utf-8"))
     return hash_object.hexdigest()
 
-app.secret_key = secrets.token_urlsafe(32)
-app.config["SESSION_PERMANENT"] = False
-app.config["SESSION_TYPE"] = "filesystem"
-Session(app)
-
 obj = user_model()
 
 @app.route('/')
@@ -32,7 +27,8 @@ def homepage():
 
 @app.route("/signup", methods = ["POST", "GET"])
 def signup():
-    result = obj.signup_model(request.form)
+    data = request.get_json()
+    result = obj.signup_model(data)
     if result == None:
         return json.dumps({"msg": "Not found data"})
     re_py = json.loads(result)
@@ -43,7 +39,7 @@ def signup():
 
 @app.route("/login", methods = ["POST","GET"])
 def login():
-    result = obj.login_model(request.form)
+    result = obj.login_model(request.json)
     if result == None:
         return json.dumps({"msg": "Not found data"})
     re_py = json.loads(result)
