@@ -1,33 +1,15 @@
 import 'package:flutter/material.dart';
-import 'dart:ui';
+import 'package:vivu/core/app_export.dart';
+import 'package:vivu/widgets/custom_search_view.dart';
 
-class HomeModel {
-  List<ListItemModel> itemList = [ListItemModel(textProps: "Brands")];
-}
-
-class ListItemModel {
-  ListItemModel({
-    this.textProps,
-    this.id,
-  }) {
-    textProps = textProps ?? "Brands";
-    id = id ?? "";
-  }
-
-  String? textProps;
-
-  String? id;
-}
-
-class ListItemWidget extends StatelessWidget {
-  ListItemWidget(
-    this.listItemModelObj, {
-    Key? key,
-  }) : super(
+// ignore: must_be_immutable
+class NinetysevenlistItemWidget extends StatelessWidget {
+  NinetysevenlistItemWidget({Key? key})
+      : super(
           key: key,
         );
+
   TextEditingController searchViewPropsController = TextEditingController();
-  ListItemModel listItemModelObj;
 
   @override
   Widget build(BuildContext context) {
@@ -48,14 +30,14 @@ class ListItemWidget extends StatelessWidget {
             padding: EdgeInsets.only(left: 1.h),
             child: CustomSearchView(
               controller: searchViewPropsController,
-              hintText: "lbl_search".tr,
+              hintText: "Search",
             ),
           ),
           SizedBox(height: 92.v),
           Padding(
             padding: EdgeInsets.only(left: 1.h),
             child: Text(
-              ListItemModel.textProps!,
+              "Brands",
               style: theme.textTheme.titleLarge,
             ),
           ),
