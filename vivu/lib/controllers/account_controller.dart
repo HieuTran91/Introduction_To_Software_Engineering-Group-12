@@ -48,8 +48,6 @@ class AccountController {
       );
 
       Map<String, dynamic> data = jsonDecode(response.body);
-      print(data['msg']);
-
       if (data['status_code'] == 200) {
         return true;
       } else {
