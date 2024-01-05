@@ -72,7 +72,7 @@ class HomeScreen extends StatelessWidget {
            GestureDetector(
                       onTap: () {
                         Navigator.of(context).pushNamed(AppRoutes
-                            .signUpScreen); // Adjust with your actual sign-up route
+                            .listCarPage); // Adjust with your actual sign-up route
                       },
                       child: RichText(
                         text: TextSpan(
