@@ -38,8 +38,8 @@ class ListCarContainerScreen extends StatelessWidget {
         return AppRoutes.listCarPage;
       case BottomBarEnum.Claritynotificationsolid:
         return AppRoutes.recentHistoryPage;
-      case BottomBarEnum.Carbonlocationfilled:
-        return "/";
+      // case BottomBarEnum.Carbonlocationfilled:
+      //   return "/";
       case BottomBarEnum.Cisettingsfilled:
         return "/";
       default:

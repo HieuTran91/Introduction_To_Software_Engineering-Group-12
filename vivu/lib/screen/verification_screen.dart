@@ -150,7 +150,6 @@ class VerificationScreen extends StatelessWidget {
             CustomOutlinedButton(
               text: "Sign up",
               onPressed: () {
-                // Assuming you have a route named 'verificationScreen' set up
                 Navigator.pushNamed(context, AppRoutes.loginScreen);
               },
             ),

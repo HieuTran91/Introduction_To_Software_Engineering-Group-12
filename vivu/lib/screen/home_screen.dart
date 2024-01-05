@@ -69,10 +69,34 @@ class HomeScreen extends StatelessWidget {
             "Hot deals",
             style: CustomTextStyles.titleLargeErrorContainer,
           ),
-          Text(
-            "View all...",
-            style: CustomTextStyles.titleLargePrimaryMedium,
-          ),
+           GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).pushNamed(AppRoutes
+                            .listCarPage); // Adjust with your actual sign-up route
+                      },
+                      child: RichText(
+                        text: TextSpan(
+                          children: [
+                            TextSpan(
+                              text: "View",
+                              style: CustomTextStyles.titleLargePrimaryMedium,
+                            ),
+                            TextSpan(
+                              text: " ",
+                            ),
+                            TextSpan(
+                              text: "all",
+                              style: CustomTextStyles.titleLargePrimaryMedium,
+                            ),
+                            TextSpan(
+                              text: "...",
+                              style: CustomTextStyles.titleLargePrimaryMedium,
+                            ),
+                          ],
+                        ),
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
         ],
       ),
     );
@@ -160,8 +184,8 @@ class HomeScreen extends StatelessWidget {
         return AppRoutes.listCarPage;
       case BottomBarEnum.Claritynotificationsolid:
         return AppRoutes.recentHistoryPage;
-      case BottomBarEnum.Carbonlocationfilled:
-        return "/";
+      // case BottomBarEnum.Carbonlocationfilled:
+      //   return "/";
       case BottomBarEnum.Cisettingsfilled:
         return "/";
       default:
