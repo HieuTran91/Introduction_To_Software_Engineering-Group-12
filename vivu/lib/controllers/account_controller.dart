@@ -3,7 +3,7 @@ import 'package:vivu/core/app_export.dart';
 import 'package:vivu/models/account_model.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:vivu/models/accountModel.dart';
+import 'package:vivu/models/car_model.dart';
 //import 'package:vivu/models/accountModel.dart';
 
 class Data {
@@ -64,9 +64,9 @@ class AccountController {
 
   void login(BuildContext context) {
     isLoggedIn = true;
-    if (data.isCarOwner == 0) {
+    if (myAccountFromMap.isCarOwner == 0) {
       Navigator.pushNamed(context, AppRoutes.homeScreen);
-    } else if (data.isCarOwner == 1) {
+    } else if (myAccountFromMap.isCarOwner == 1) {
       Navigator.pushNamed(context, AppRoutes.listCarContainerScreen);
     }
     ;
