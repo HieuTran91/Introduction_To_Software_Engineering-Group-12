@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:vivu/core/app_export.dart';
+import 'package:vivu/models/account_model.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:vivu/models/accountModel.dart';
 //import 'package:vivu/models/accountModel.dart';
+
+class Data {
+  late bool isCarOwner;
+  late int status_code;
+}
+
 // class API {
 //   Future<dynamic> checkAccount(String phone, String password) async {
 //     return {"isValid": phone == "123" && password == "password"}; //api call
@@ -64,6 +71,11 @@ class AccountController {
 
   void login(BuildContext context) {
     isLoggedIn = true;
-    Navigator.pushNamed(context, AppRoutes.homeScreen);
+    if (data.isCarOwner == 0) {
+      Navigator.pushNamed(context, AppRoutes.homeScreen);
+    } else if (data.isCarOwner == 1) {
+      Navigator.pushNamed(context, AppRoutes.listCarContainerScreen);
+    }
+    ;
   }
 }
