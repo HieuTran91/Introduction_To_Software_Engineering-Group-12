@@ -11,13 +11,6 @@ class Data {
   late int status_code;
 }
 
-// class API {
-//   Future<dynamic> checkAccount(String phone, String password) async {
-//     return {"isValid": phone == "123" && password == "password"}; //api call
-//   }
-// }
-
-// API api = API(); // This creates an instance of your API class
 
 class AccountController {
   bool isLoggedIn = false;

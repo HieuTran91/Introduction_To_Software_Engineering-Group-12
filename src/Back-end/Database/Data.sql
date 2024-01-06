@@ -4,17 +4,10 @@ USE VIVUAPP;
 -- INSERT INTO account (accountID, password, email, phoneNumber, fullName, address, gender, birthday, citizenIdentityCard, isCarOwner)
 -- VALUES
 -- ('00101', 'trantrunghieu2003', 'tthieu23@gmail.com', '0367938528', 'Tran Trung Hieu', '25/4 Lạc Long Quân, Q.10, TP HCM', 'nam', '2003-04-05', '066303657365',1),
--- ('00102', 'manhtran1904', 'tmanh@gmail.com', '0668394624', 'Tran Minh Anh', '125 Trần Hưng Đạo, Q.1, TP HCM', 'nữ', '2002-05-07', '066404668666',0),
--- ('00103', 'lenguyenan9387', 'lnkan4@gmail.com', '0672984463', 'Le Nguyen Khanh An', '12/21 Võ Văn Ngân Thủ Đức, TPHCM', 'nam', '2000-06-04', '077787742674',0),
 -- ('00104', 'thaongocle0510', 'ln.thao@gmail.com', '0482947567', 'Le Ngoc Thao', '215 Lý Thường Kiệt, TP Biên Hòa', 'nữ', '2003-10-05', '088010852485',1),
--- ('00105', 'tmhoang2984', 'tmhoanggg@gmail.com', '0367482564', 'Tran Minh Hoang', '22/5 Nguyễn Xí, Q.Bình Thạnh, TPHCM', 'nam', '2000-10-08', '066484657365',0),
 -- ('00106', 'trivo782', 'trivo.cao@gmail.com', '0684759365', 'Vo Cao Tri', '127 Hùng Vương Q.10, TP HCM', 'nam', '2003-10-13', '088282834683',1),
 -- ('00107', 'catthanh15102003', 'hlcthanh1510@gmail.com', '0694739539', 'Hoang Le Cat Thanh', '22/11 Lý Thường Kiệt, TP Mỹ Tho', 'nữ', '2003-10-14', '099303954695',1),
--- ('00108', 'chi123456789', 'nguyen.quynhchi@gmail.com', '0375859365', 'Nguyen Quynh Chi', '234 Trấn Não, An Phú, TP HCM', 'nữ', '1999-06-19', '077989735373',0),
--- ('00109', 'lakhoi0145', 'leanhkhoi22@gmail.com', '0368594657', 'Le An Khoi', '221 Hùng Vương, Q.5, TP HCM', 'nam', '1998-12-08', '066545668366',0),
 -- ('00110', 'doanthiyennhi1210', 'dtynhi1210@gmail.com', '0667294653', 'Doan Thi Yen Nhi', '576 Đoàn Văn Bơ Q.5, TP HCM', 'nữ', '2003-10-12', '066010667666',1),
--- ('00111', 'lam150620', 'vtlam983@gmail.com', '0274658365', 'Vo Tue Lam', '227 Nguyễn Văn Cừ Q.5, TP HCM', 'nữ', '2004-07-04', '077020734273',0),
--- ('00112', 'lgiahuy123', 'lghuy@gmail.com', '0375947574', 'Le Gia Huy', '57 An Dương Vương, Q.5 TPHCM', 'nam', '1999-02-18', '077323755375',0);
 
 
 -- Account hashed password

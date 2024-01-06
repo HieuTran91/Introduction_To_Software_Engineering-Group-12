@@ -26,7 +26,7 @@ proc: BEGIN
 		SET @p_accountID = (SELECT RIGHT(CONCAT('00000', CAST(IFNULL(MAX(accountID), 0) + 1 AS CHAR(5))), 5) FROM AccountCar);
 		INSERT INTO AccountCar (accountID, phoneNumber, passwordAccount, fullName, address, email, birthday, isCarOwner) 
         VALUES (@p_accountID , p_phoneNumber, p_password,	p_fullName, p_address, p_email, p_birthday, p_isCarOwner);
-        select accountID, isCarOwner from AccountCar where @p_accountID = accountID;
+        select * from AccountCar where @p_accountID = accountID;
      END if;
 END //
 DELIMITER ;
@@ -50,7 +50,7 @@ proc: BEGIN
         signal SQLSTATE '23000' SET MESSAGE_TEXT = 'The password is wrong';
 		leave proc;
 	end if;
-	select accountID, isCarOwner from AccountCar where p_phoneNumber = phoneNumber and passwordAccount = p_password;
+	select accountID, phoneNumber, fullName, address, email, birthday, isCarOwner from AccountCar where p_phoneNumber = phoneNumber and passwordAccount = p_password;
 END //
 DELIMITER ;
 
@@ -190,7 +190,7 @@ CREATE PROCEDURE GetCurrentTrip(
     IN customer_id CHAR(5)
 )
 proc: BEGIN
-	SELECT * FROM Rental WHERE customerID = customer_id and rentalStatus = 1;
+	SELECT * FROM Rental WHERE customerID = customer_id and rentalStatus = 0;
 END //
 DELIMITER;
 
@@ -200,7 +200,7 @@ CREATE PROCEDURE GetCurrentRentalCarList(
 )
 proc: BEGIN
 	SELECT r.* FROM Rental r join Car c on c.carID = r.carID
-    where c.carOwnerID = owner_id and rentalStatus = 1;
+    where c.carOwnerID = owner_id and rentalStatus = 0;
 END //
 DELIMITER ;
 
@@ -215,7 +215,7 @@ DELIMITER //
 CREATE PROCEDURE GetTripHistory(IN customer_id_param CHAR(5))
 proc: BEGIN
     SELECT * FROM Rental
-    WHERE customerID = customer_id_param and rentalStatus = 0;
+    WHERE customerID = customer_id_param and rentalStatus = 1;
 END //
 DELIMITER ;
 
@@ -225,7 +225,7 @@ DELIMITER //
 CREATE PROCEDURE GetRentalHistory(IN car_owner_ID CHAR(5))
 proc: BEGIN
     SELECT r.* FROM Rental r join Car c on c.carID = r.carID
-    where c.carOwnerID = car_owner_ID and rentalStatus = 0;
+    where c.carOwnerID = car_owner_ID and rentalStatus = 1;
 END //
 DELIMITER ;
 
