@@ -33,7 +33,7 @@ CREATE TABLE Car
     rentalStatus boolean,
     rentalLocationID char(5),
     paymentID char(5),
-    -- rentalStatus: 1 - đang thuê, 0 - đã trả xe
+    -- rentalStatus: 0 - đang thuê, 1 - đã trả xe
     primary key(rentalID)
  );
  
