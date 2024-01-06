@@ -116,29 +116,29 @@ class ComponentItemWidget extends StatelessWidget {
                 ),
                 Padding(
                     padding: EdgeInsets.only(bottom: 3.v),
-                    // child: Column(
-                    //   crossAxisAlignment: CrossAxisAlignment.start,
-                    //   children: [
-                    //     Text(
-                    //       "Mercedes  aMG",
-                    //       style: CustomTextStyles.titleMediumErrorContainer,
-                    //     ),
-                    //     SizedBox(height: 6.v),
-                    //     Text(
-                    //       "Dec 14,2021",
-                    //       style: CustomTextStyles.titleSmallGray400,
-                    //     ),
-                    //   ],
-                    // ),
+// child: Column(
+// crossAxisAlignment: CrossAxisAlignment.start,
+// children: [
+// Text(
+// "Mercedes aMG",
+// style: CustomTextStyles.titleMediumErrorContainer,
+// ),
+// SizedBox(height: 6.v),
+// Text(
+// "Dec 14,2021",
+// style: CustomTextStyles.titleSmallGray400,
+// ),
+// ],
+// ),
                     child: ListView.separated(
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       separatorBuilder: (context, index) {
-                        return SizedBox(height: 15);
+                        SizedBox(height: 15);
                       },
                       itemCount: components.length,
                       itemBuilder: (context, index) {
-                        return components[index];
+                        components[index];
                       },
                     )),
               ],
