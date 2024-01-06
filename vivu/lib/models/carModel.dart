@@ -1,44 +1,44 @@
-class AttributeItemModel {
-  AttributeItemModel({
+class carModel {
+  carModel({
     this.seatsImage,
-    this.seatsText,
-    this.modelText,
-    this.transmissionText,
-    this.fuelTypeText,
-    this.yearReleaseText,
-    this.priceText,
-    this.carStatusText,
+    this.seats,
+    this.model,
+    this.transmission,
+    this.fuelType,
+    this.yearRelease,
+    this.price,
+    this.carStatus,
     this.id,
   }) {
     seatsImage = "";
-    seatsText = "";
-    fourText = "";
+    seats = "";
+    four = "";
     id = "";
-    modelText = "";
-    transmissionText = "";
-    fuelTypeText = "";
-    yearReleaseText = "";
-    priceText = "";
-    carStatusText = "";
+    model = "";
+    transmission = "";
+    fuelType = "";
+    yearRelease = "";
+    price = "";
+    carStatus = "";
   }
 
   String? seatsImage;
 
-  String? seatsText;
+  String? seats;
 
-  String? fourText;
+  String? four;
 
-  String? modelText;
+  String? model;
 
-  String? transmissionText;
+  String? transmission;
 
-  String? fuelTypeText;
+  String? fuelType;
 
-  String? yearReleaseText;
+  String? yearRelease;
 
-  String? priceText;
+  String? price;
 
-  String? carStatusText;
+  String? carStatus;
 
   String? id;
 }
