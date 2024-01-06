@@ -1,6 +1,79 @@
 import 'package:flutter/material.dart';
 import 'package:vivu/core/app_export.dart';
 
+List<Widget> components = [
+  Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        "VinFast VF8 Eco",
+        style: CustomTextStyles.titleMediumErrorContainer,
+      ),
+      SizedBox(height: 6),
+      Text(
+        "Oct 14, 2023",
+        style: CustomTextStyles.titleSmallGray400,
+      ),
+    ],
+  ),
+  Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        "BAIC Beijing",
+        style: CustomTextStyles.titleMediumErrorContainer,
+      ),
+      SizedBox(height: 6.v),
+      Text(
+        "Dec 12,2020",
+        style: CustomTextStyles.titleSmallGray400,
+      ),
+    ],
+  ),
+  Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        "Mazda CX5 Deluxe",
+        style: CustomTextStyles.titleMediumErrorContainer,
+      ),
+      SizedBox(height: 6.v),
+      Text(
+        "Jan 23,2021",
+        style: CustomTextStyles.titleSmallGray400,
+      ),
+    ],
+  ),
+  Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        "BMW 320i",
+        style: CustomTextStyles.titleMediumErrorContainer,
+      ),
+      SizedBox(height: 6.v),
+      Text(
+        "Jun 02,2019",
+        style: CustomTextStyles.titleSmallGray400,
+      ),
+    ],
+  ),
+  Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(
+        "Ford Ranger XLS",
+        style: CustomTextStyles.titleMediumErrorContainer,
+      ),
+      SizedBox(height: 6.v),
+      Text(
+        "Aug 30,2022",
+        style: CustomTextStyles.titleSmallGray400,
+      ),
+    ],
+  ),
+];
+
 // ignore: must_be_immutable
 class ComponentItemWidget extends StatelessWidget {
   const ComponentItemWidget({Key? key})
@@ -42,22 +115,32 @@ class ComponentItemWidget extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(bottom: 3.v),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Mercedes  aMG",
-                        style: CustomTextStyles.titleMediumErrorContainer,
-                      ),
-                      SizedBox(height: 6.v),
-                      Text(
-                        "Dec 14,2021",
-                        style: CustomTextStyles.titleSmallGray400,
-                      ),
-                    ],
-                  ),
-                ),
+                    padding: EdgeInsets.only(bottom: 3.v),
+                    // child: Column(
+                    //   crossAxisAlignment: CrossAxisAlignment.start,
+                    //   children: [
+                    //     Text(
+                    //       "Mercedes  aMG",
+                    //       style: CustomTextStyles.titleMediumErrorContainer,
+                    //     ),
+                    //     SizedBox(height: 6.v),
+                    //     Text(
+                    //       "Dec 14,2021",
+                    //       style: CustomTextStyles.titleSmallGray400,
+                    //     ),
+                    //   ],
+                    // ),
+                    child: ListView.separated(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      separatorBuilder: (context, index) {
+                        return SizedBox(height: 15);
+                      },
+                      itemCount: components.length,
+                      itemBuilder: (context, index) {
+                        return components[index];
+                      },
+                    )),
               ],
             ),
           ),

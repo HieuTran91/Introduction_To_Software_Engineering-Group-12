@@ -1,4 +1,4 @@
-import '../widgets/userprofilegrid_item_widget.dart';
+import '../widgets/grid_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:vivu/core/app_export.dart';
 import 'package:vivu/widgets/custom_elevated_button.dart';
@@ -125,9 +125,9 @@ class CarManagementScreen extends StatelessWidget {
                 mainAxisSpacing: 19.h,
                 crossAxisSpacing: 19.h),
             physics: NeverScrollableScrollPhysics(),
-            itemCount: 3,
+            itemCount: 4,
             itemBuilder: (context, index) {
-              return UserprofilegridItemWidget();
+              return GridItemWidget();
             }));
   }
 
