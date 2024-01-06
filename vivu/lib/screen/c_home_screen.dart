@@ -1,3 +1,4 @@
+import 'package:vivu/screen/list_car_container_screen.dart';
 import '../widgets/carlist_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:vivu/core/app_export.dart';
@@ -69,34 +70,34 @@ class HomeScreen extends StatelessWidget {
             "Hot deals",
             style: CustomTextStyles.titleLargeErrorContainer,
           ),
-           GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).pushNamed(AppRoutes
-                            .listCarPage); // Adjust with your actual sign-up route
-                      },
-                      child: RichText(
-                        text: TextSpan(
-                          children: [
-                            TextSpan(
-                              text: "View",
-                              style: CustomTextStyles.titleLargePrimaryMedium,
-                            ),
-                            TextSpan(
-                              text: " ",
-                            ),
-                            TextSpan(
-                              text: "all",
-                              style: CustomTextStyles.titleLargePrimaryMedium,
-                            ),
-                            TextSpan(
-                              text: "...",
-                              style: CustomTextStyles.titleLargePrimaryMedium,
-                            ),
-                          ],
-                        ),
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
+          GestureDetector(
+            onTap: () {
+              Navigator.of(context).pushNamed(AppRoutes
+                  .listCarContainerScreen); // Adjust with your actual sign-up route
+            },
+            child: RichText(
+              text: TextSpan(
+                children: [
+                  TextSpan(
+                    text: "View",
+                    style: CustomTextStyles.titleLargePrimaryMedium,
+                  ),
+                  TextSpan(
+                    text: " ",
+                  ),
+                  TextSpan(
+                    text: "all",
+                    style: CustomTextStyles.titleLargePrimaryMedium,
+                  ),
+                  TextSpan(
+                    text: "...",
+                    style: CustomTextStyles.titleLargePrimaryMedium,
+                  ),
+                ],
+              ),
+              textAlign: TextAlign.left,
+            ),
+          ),
         ],
       ),
     );
@@ -177,11 +178,10 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  ///Handling route based on bottom click actions
   String getCurrentRoute(BottomBarEnum type) {
     switch (type) {
       case BottomBarEnum.Dashiconsscreenoptions:
-        return AppRoutes.listCarPage;
+        return AppRoutes.listCarContainerScreen;
       case BottomBarEnum.Claritynotificationsolid:
         return AppRoutes.recentHistoryPage;
       // case BottomBarEnum.Carbonlocationfilled:
@@ -196,8 +196,8 @@ class HomeScreen extends StatelessWidget {
   ///Handling page based on route
   Widget getCurrentPage(String currentRoute) {
     switch (currentRoute) {
-      case AppRoutes.listCarPage:
-        return ListCarPage();
+      case AppRoutes.listCarContainerScreen:
+        return ListCarContainerScreen();
       case AppRoutes.recentHistoryPage:
         return RecentHistoryPage();
       default:
