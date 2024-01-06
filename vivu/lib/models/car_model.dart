@@ -1,5 +1,5 @@
-class AttributeItemModel {
-  AttributeItemModel({
+class CarModel {
+  CarModel({
     this.seatsImage,
     this.seatsText,
     this.modelText,

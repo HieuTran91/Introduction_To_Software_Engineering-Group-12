@@ -1,5 +1,5 @@
-class AttributeItemModel {
-  AttributeItemModel(
+class RentalModel {
+  RentalModel(
       {this.rentalID,
       this.carID,
       this.customerID,

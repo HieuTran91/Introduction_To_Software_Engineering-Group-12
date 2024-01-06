@@ -1,3 +1,4 @@
+import 'package:vivu/screen/list_car_container_screen.dart';
 import '../widgets/carlist_item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:vivu/core/app_export.dart';
@@ -72,7 +73,7 @@ class HomeScreen extends StatelessWidget {
           GestureDetector(
             onTap: () {
               Navigator.of(context).pushNamed(AppRoutes
-                  .listCarPage); // Adjust with your actual sign-up route
+                  .listCarContainerScreen); // Adjust with your actual sign-up route
             },
             child: RichText(
               text: TextSpan(
@@ -177,10 +178,10 @@ class HomeScreen extends StatelessWidget {
     );
   }
 
-  String getCurrentRoute(BottomBarEnum type, BuildContext context) {
+  String getCurrentRoute(BottomBarEnum type) {
     switch (type) {
       case BottomBarEnum.Dashiconsscreenoptions:
-        return AppRoutes.listCarPage;
+        return AppRoutes.listCarContainerScreen;
       case BottomBarEnum.Claritynotificationsolid:
         return AppRoutes.recentHistoryPage;
       // case BottomBarEnum.Carbonlocationfilled:
@@ -195,8 +196,8 @@ class HomeScreen extends StatelessWidget {
   ///Handling page based on route
   Widget getCurrentPage(String currentRoute) {
     switch (currentRoute) {
-      case AppRoutes.listCarPage:
-        return ListCarPage();
+      case AppRoutes.listCarContainerScreen:
+        return ListCarContainerScreen();
       case AppRoutes.recentHistoryPage:
         return RecentHistoryPage();
       default:
