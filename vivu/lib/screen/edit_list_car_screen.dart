@@ -68,12 +68,12 @@ class EditListCarScreen extends StatelessWidget {
 
   /// Navigates to the bookingScreen when the action is triggered.
   onTapView(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.bookingScreen);
+    Navigator.pushNamed(context, AppRoutes.editCarInfoScreen);
   }
 
   /// Navigates to the setDateScreen when the action is triggered.
   onTapAddNewCar(BuildContext context) {
-    Navigator.pushNamed(context, AppRoutes.setDateScreen);
+    Navigator.pushNamed(context, AppRoutes.editListCarScreen);
   }
 
   /// Navigates to the editCarInfoScreen when the action is triggered.
