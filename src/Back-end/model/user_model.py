@@ -79,6 +79,14 @@ class user_model():
         except Exception as e:
             return result
         
+    def my_car_model(self, id):
+        try:
+            self.cur.execute(f"Select * from Car where carOwnerID = '{id}'")
+            result = self.cur.fetchall()
+            return result
+        except Exception as e:
+            return result
+        
     # xem thông tin chi tiết của xe
     def get_detail_car_model(self, data):
         try:
