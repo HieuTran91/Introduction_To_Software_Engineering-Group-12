@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:vivu/core/app_export.dart';
-
+import 'package:vivu/models/car_model.dart';
 // ignore: must_be_immutable
 class CardetailsItemWidget extends StatelessWidget {
   CardetailsItemWidget({
     Key? key,
-    this.onTapCarDetails,
+    required this.onTapCarDetails,
+    required this.car,
   }) : super(
           key: key,
         );
 
   VoidCallback? onTapCarDetails;
+  final Car car;
 
   @override
   Widget build(BuildContext context) {

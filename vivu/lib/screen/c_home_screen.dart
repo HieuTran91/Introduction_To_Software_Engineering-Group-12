@@ -5,7 +5,8 @@ import 'package:vivu/core/app_export.dart';
 import 'package:vivu/screen/list_car_page.dart';
 import 'package:vivu/screen/recent_history_page.dart';
 import 'package:vivu/widgets/custom_bottom_bar.dart';
-
+import 'package:vivu/controllers/car_controller.dart';
+import 'package:vivu/models/car_model.dart';
 class HomeScreen extends StatelessWidget {
   HomeScreen({Key? key})
       : super(
@@ -13,7 +14,7 @@ class HomeScreen extends StatelessWidget {
         );
 
   GlobalKey<NavigatorState> navigatorKey = GlobalKey();
-
+  CarController _carController = CarController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -39,6 +40,7 @@ class HomeScreen extends StatelessWidget {
 
   /// Section Widget
   Widget _buildList(BuildContext context) {
+    List<Car> carlist = _carController.cars;
     return SizedBox(
       height: 406.v,
       child: ListView.separated(
@@ -53,7 +55,7 @@ class HomeScreen extends StatelessWidget {
         },
         itemCount: 6,
         itemBuilder: (context, index) {
-          return CarlistItemWidget();
+          return CarlistItemWidget(car: carlist[index]);
         },
       ),
     );

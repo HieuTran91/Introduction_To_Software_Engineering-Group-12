@@ -5,9 +5,12 @@ import 'package:vivu/core/app_export.dart';
 import 'package:vivu/widgets/app_bar/appbar_subtitle_one.dart';
 import 'package:vivu/widgets/app_bar/appbar_trailing_image.dart';
 import 'package:vivu/widgets/app_bar/custom_app_bar.dart';
+import 'package:vivu/controllers/car_controller.dart';
+import 'package:vivu/models/car_model.dart';
 
 class ListCarPage extends StatelessWidget {
-  const ListCarPage({Key? key}) : super(key: key);
+  // const ListCarPage({Key? key}) : super(key: key);
+  CarController _carController = CarController();
 
   @override
   Widget build(BuildContext context) {
@@ -56,42 +59,97 @@ class ListCarPage extends StatelessWidget {
   }
 
   /// Section Widget
+  // Widget _buildCarList(BuildContext context) {
+  //   return Align(
+  //       alignment: Alignment.centerRight,
+  //       child: SizedBox(
+  //           height: 80.v,
+  //           child: ListView.separated(
+  //               padding: EdgeInsets.only(left: 30.h),
+  //               scrollDirection: Axis.horizontal,
+  //               separatorBuilder: (context, index) {
+  //                 return SizedBox(width: 10.h);
+  //               },
+  //               itemCount: 5,
+  //               itemBuilder: (context, index) {
+  //                 return CarlistItemWidget();
+  //               })));
+  // }
   Widget _buildCarList(BuildContext context) {
-    return Align(
-        alignment: Alignment.centerRight,
-        child: SizedBox(
+  return FutureBuilder(
+    future: _carController.fetchListCar(),
+    builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        return CircularProgressIndicator(); // or a loading indicator
+      } else if (snapshot.hasError) {
+        return Text('Error: ${snapshot.error}');
+      } else {
+        return Align(
+          alignment: Alignment.centerRight,
+          child: SizedBox(
             height: 80.v,
             child: ListView.separated(
-                padding: EdgeInsets.only(left: 30.h),
-                scrollDirection: Axis.horizontal,
-                separatorBuilder: (context, index) {
-                  return SizedBox(width: 10.h);
-                },
-                itemCount: 5,
-                itemBuilder: (context, index) {
-                  return CarlistItemWidget();
-                })));
-  }
-
+              padding: EdgeInsets.only(left: 30.h),
+              scrollDirection: Axis.horizontal,
+              separatorBuilder: (context, index) {
+                return SizedBox(width: 10.h);
+              },
+              itemCount: _carController.cars.length,
+              itemBuilder: (context, index) {
+                return CarlistItemWidget(
+                  car: _carController.cars[index],
+                );
+              },
+            ),
+          ),
+        );
+      }
+    },
+  );
+}
   /// Section Widget
+  // Widget _buildCarDetails(BuildContext context) {
+  //   return Align(
+  //       alignment: Alignment.bottomCenter,
+  //       child: Padding(
+  //           padding: EdgeInsets.only(left: 29.h, top: 45.v, right: 29.h),
+  //           child: ListView.separated(
+  //               physics: NeverScrollableScrollPhysics(),
+  //               shrinkWrap: true,
+  //               separatorBuilder: (context, index) {
+  //                 return SizedBox(height: 24.v);
+  //               },
+  //               itemCount: 3,
+  //               itemBuilder: (context, index) {
+  //                 return CardetailsItemWidget(onTapCarDetails: () {
+  //                   onTapCarDetails(context);
+  //                 });
+  //               })));
+  // }
   Widget _buildCarDetails(BuildContext context) {
-    return Align(
-        alignment: Alignment.bottomCenter,
-        child: Padding(
-            padding: EdgeInsets.only(left: 29.h, top: 45.v, right: 29.h),
-            child: ListView.separated(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                separatorBuilder: (context, index) {
-                  return SizedBox(height: 24.v);
-                },
-                itemCount: 3,
-                itemBuilder: (context, index) {
-                  return CardetailsItemWidget(onTapCarDetails: () {
-                    onTapCarDetails(context);
-                  });
-                })));
-  }
+  return Align(
+    alignment: Alignment.bottomCenter,
+    child: Padding(
+      padding: EdgeInsets.only(left: 29.h, top: 45.v, right: 29.h),
+      child: ListView.separated(
+        physics: NeverScrollableScrollPhysics(),
+        shrinkWrap: true,
+        separatorBuilder: (context, index) {
+          return SizedBox(height: 24.v);
+        },
+        itemCount: _carController.cars.length,
+        itemBuilder: (context, index) {
+          return CardetailsItemWidget(
+            car:_carController.cars[index],
+            onTapCarDetails: () {
+              onTapCarDetails(context, _carController.cars[index]);
+            },
+          );
+        },
+      ),
+    ),
+  );
+}
 
   /// Section Widget
   Widget _buildEleven(BuildContext context) {
@@ -137,7 +195,7 @@ class ListCarPage extends StatelessWidget {
   }
 
   /// Navigates to the bookingScreen when the action is triggered.
-  onTapCarDetails(BuildContext context) {
+  onTapCarDetails(BuildContext context, Car car) {
     Navigator.pushNamed(context, AppRoutes.bookingScreen);
   }
 }

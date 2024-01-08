@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:vivu/core/app_export.dart';
-
+import 'package:vivu/models/car_model.dart';
 // ignore: must_be_immutable
 class CarlistItemWidget extends StatelessWidget {
-  const CarlistItemWidget({Key? key})
-      : super(
-          key: key,
-        );
-
+  final Car car;
+  const CarlistItemWidget({
+    Key? key,
+    required this.car,
+  }) : super(key: key);
+  
   @override
   Widget build(BuildContext context) {
     return SizedBox(

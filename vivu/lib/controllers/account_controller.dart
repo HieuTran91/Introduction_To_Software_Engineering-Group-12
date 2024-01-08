@@ -3,8 +3,6 @@ import 'package:vivu/core/app_export.dart';
 import 'package:vivu/models/account_model.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:vivu/models/car_model.dart';
-//import 'package:vivu/models/accountModel.dart';
 
 class Data {
   late bool isCarOwner;
@@ -20,30 +18,22 @@ class AccountController {
       final response = await http.post(
         
         // Uri.parse('http://192.168.1.153:5000/login'),
-        Uri.parse('http://192.168.1.229:5000/login'),
+        Uri.parse('http://192.168.1.155:5000/login'),
         headers: {"Content-Type": "application/json"}, 
         body: jsonEncode({
           'phoneNumber': phone,
           'password': password
         })
       );
-      // final decodedData = jsonDecode(response.body) as List;
-      // final firstUser = decodedData[0] as Map<String, dynamic>;
-
       final decodedData = jsonDecode(response.body) as List;
-      // Assuming decodedData is a List<dynamic>
-      // final firstUserMap = decodedData.isNotEmpty ? decodedData[0] as Map<String, dynamic> : null;
 
-      // if (firstUserMap != null) {
-      //   // Ensure the Account.fromMap method handles null values appropriately
-      //   Account myAccountFromMap = Account.fromMap(firstUserMap);
-      //   print(myAccountFromMap.accountID);
-      // } else {
-      //   print('Error: No data or incorrect data format.');
-      // }
       final firstUserMap = decodedData[0] as Map<String, dynamic>;
       print(firstUserMap);
       myAccountFromMap = Account.fromMap(firstUserMap);
+
+      // final decodedData = jsonDecode(response.body) as List;
+      // final firstUser = decodedData[0] as Map<String, dynamic>;
+
       // final account = accountModel.fromMap(firstUserMap);
       // print(account);
     // Now you have an accountModel object with the data
