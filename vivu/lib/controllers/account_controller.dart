@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:vivu/core/app_export.dart';
 import 'package:vivu/models/account_model.dart';
+import 'package:vivu/models/car_model.dart';
+import 'package:vivu/controllers/car_controller.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 

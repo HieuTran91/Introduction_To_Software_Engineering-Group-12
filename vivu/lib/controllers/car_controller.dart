@@ -8,10 +8,11 @@ class CarService {
   Future<List<Car>> getListCar() async {
     try {
       final response = await http.get(Uri.parse('http://192.168.1.155:5000/listcar'));
-
       if (response.statusCode == 200) {
         List<dynamic> decodedData = jsonDecode(response.body) as List<dynamic>;
-        return decodedData.map((carMap) => Car.fromMap(carMap)).toList();
+        return decodedData.map((carMap) {
+          return Car.fromMap(carMap);
+        }).toList();
       } else {
         throw Exception('Invalid credentials');
       }
@@ -24,10 +25,11 @@ class CarService {
   Future<List<Car>> getListCarByOwner() async {
     try {
       final response = await http.get(Uri.parse('http://192.168.1.155:5000/mycar'));
-
       if (response.statusCode == 200) {
         List<dynamic> decodedData = jsonDecode(response.body) as List<dynamic>;
-        return decodedData.map((carMap) => Car.fromMap(carMap)).toList();
+        return decodedData.map((carMap) {
+          return Car.fromMap(carMap); 
+        }).toList();
       } else {
         throw Exception('Invalid credentials');
       }

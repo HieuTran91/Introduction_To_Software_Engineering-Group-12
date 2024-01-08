@@ -29,16 +29,16 @@ class Car {
   // Factory method to create an Account instance from a Map
   factory Car.fromMap(Map<String, dynamic> map) {
     return Car(
-      carID: map['carID'],
       carCompany: map['carCompany'],
+      carID: map['carID'],
+      carOwnerID: map['carOwnerID'],
+      carStatus: map['carStatus'],
+      fuelType: map['fuelType'],
       model: map['model'],
+      price: map['price'],
       seats: map['seats'],
       transmission: map['transmission'],
-      fuelType: map['fuelType'],
       yearRelease: map['yearRelease'],
-      price: map['price'],
-      carStatus: map['carStatus'],
-      carOwnerID: map['carOwnerID'],
     );
   }
 
