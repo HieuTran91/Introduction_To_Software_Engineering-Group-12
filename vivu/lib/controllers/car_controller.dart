@@ -5,6 +5,37 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class CarService {
+  Future<bool> editCar(String carID, Map<String, dynamic> data) async {
+    try {
+      final response = await http.post(
+        Uri.parse('http://192.168.1.155:5000/editcar'),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode({
+          'carID': carID,
+          'carCompany': data['carCompany'],
+          'model': data['model'],
+          'seats': data['seats'],
+          'transmission': data['transmission'],
+          'fuelType': data['fuelType'],
+          'yearRelease': data['yearRelease'],
+          'price': data['price'],
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        // Assuming your API returns a success status or updated car details
+        // You can handle the response accordingly
+        return true;
+      } else {
+        throw Exception('Failed to edit car');
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception('Failed to edit car');
+    }
+  }
   Future<List<Car>> getListCar() async {
     try {
       final response = await http.get(Uri.parse('http://192.168.1.155:5000/listcar'));
