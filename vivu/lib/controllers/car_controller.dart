@@ -5,6 +5,28 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class CarService {
+  Future<Car> getCarById(String carID) async {
+    try {
+      final response = await http.post(
+        Uri.parse('http://192.168.1.155:5000/car'), // Replace with your API endpoint for fetching a car by ID
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode({
+          'carID': carID,
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        return Car.fromMap(jsonDecode(response.body));
+      } else {
+        throw Exception('Failed to get car by ID');
+      }
+    } catch (e) {
+      print('Error: $e');
+      throw Exception('Failed to get car by ID');
+    }
+  }
   Future<bool> editCar(String carID, Map<String, dynamic> data) async {
     try {
       final response = await http.post(
@@ -75,6 +97,17 @@ class CarController {
   final CarService carService = CarService();
   List<Car> cars = [];
   List<Car> carsByOwner = [];
+  Car currentCar = Car();
+  Future<bool> fetchCarById(String carID) async {
+    try {
+      Car car = await carService.getCarById(carID);
+      currentCar = car;
+      return true;
+    } catch (e) {
+      print('Error: $e');
+      return false;
+    }
+  }
   Future<bool> fetchListCar() async {
     try {
       List<Car> fetchedCars = await carService.getListCar();

@@ -30,7 +30,6 @@ class AccountController {
       final decodedData = jsonDecode(response.body) as List;
 
       final firstUserMap = decodedData[0] as Map<String, dynamic>;
-      print(firstUserMap);
       myAccountFromMap = Account.fromMap(firstUserMap);
 
       // final decodedData = jsonDecode(response.body) as List;
