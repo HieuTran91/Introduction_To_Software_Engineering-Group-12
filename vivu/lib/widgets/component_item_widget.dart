@@ -134,7 +134,7 @@ class ComponentItemWidget extends StatelessWidget {
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       separatorBuilder: (context, index) {
-                        SizedBox(height: 15);
+                        return SizedBox(height: 15);
                       },
                       itemCount: components.length,
                       itemBuilder: (context, index) {

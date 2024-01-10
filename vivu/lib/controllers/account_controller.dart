@@ -10,11 +10,22 @@ class Data {
   late bool isCarOwner;
   late int status_code;
 }
+class AccountSingleton {
+  static final AccountSingleton _singleton = AccountSingleton._internal();
 
+  factory AccountSingleton() {
+    return _singleton;
+  }
+
+  AccountSingleton._internal();
+
+  Account myAccountFromMap = Account();
+}
 
 class AccountController {
   bool isLoggedIn = false;
   Account myAccountFromMap = Account();
+  final accountSingleton = AccountSingleton();
   Future<bool> validateAccount(String phone, String password) async {
     try {
       // final response = await http.get(Uri.parse('http://192.168.1.155:5000/listcar'));
@@ -33,7 +44,7 @@ class AccountController {
 
       final firstUserMap = decodedData[0] as Map<String, dynamic>;
       myAccountFromMap = Account.fromMap(firstUserMap);
-
+      accountSingleton.myAccountFromMap = myAccountFromMap;
       if (response.statusCode == 200) {
         return true;
       } else {

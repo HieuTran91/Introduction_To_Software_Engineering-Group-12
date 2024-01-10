@@ -12,7 +12,7 @@ class RentalController {
   Future<bool> addRental(String carID, String pickupTime, String returnTime) async {
     try {
       final response = await http.post(
-        Uri.parse('http://192.168.1.229:5000/rentalcar'),
+        Uri.parse('http://192.168.1.155:5000/rentalcar'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -38,7 +38,7 @@ class RentalController {
 
   Future<bool> fetchCurrentTrip() async {
     try {
-      final response = await http.get(Uri.parse('http://192.168.1.229:5000/currentTrip'));
+      final response = await http.get(Uri.parse('http://192.168.1.155:5000/currentTrip'));
 
       if (response.statusCode == 200) {
         List<dynamic> decodedData = jsonDecode(response.body) as List<dynamic>;
@@ -55,7 +55,7 @@ class RentalController {
 
   Future<bool> fetchCurrentRentalTripList() async {
     try {
-      final response = await http.get(Uri.parse('http://192.168.1.229:5000/currentRentalTripList'));
+      final response = await http.get(Uri.parse('http://192.168.1.155:5000/currentRentalTripList'));
 
       if (response.statusCode == 200) {
         List<dynamic> decodedData = jsonDecode(response.body) as List<dynamic>;
@@ -70,9 +70,15 @@ class RentalController {
     }
   }
 
-  Future<bool> fetchRentalHistory() async {
+  Future<bool> fetchRentalHistory(String carOwnerID) async {
     try {
-      final response = await http.get(Uri.parse('http://192.168.1.229:5000/rentalHistory'));
+      final response = await http.post(Uri.parse('http://192.168.1.155:5000/rentalHistory'),
+      
+        headers: {"Content-Type": "application/json"}, 
+        body: jsonEncode({
+        'carOwnerID': carOwnerID
+        })
+      );
 
       if (response.statusCode == 200) {
         List<dynamic> decodedData = jsonDecode(response.body) as List<dynamic>;
@@ -89,7 +95,7 @@ class RentalController {
 
   Future<bool> fetchTripHistory() async {
     try {
-      final response = await http.get(Uri.parse('http://192.168.1.229:5000/tripHistory'));
+      final response = await http.get(Uri.parse('http://192.168.1.155:5000/tripHistory'));
 
       if (response.statusCode == 200) {
         List<dynamic> decodedData = jsonDecode(response.body) as List<dynamic>;

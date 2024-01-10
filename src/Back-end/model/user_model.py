@@ -2,7 +2,6 @@ from flask import make_response, jsonify
 from lib import app
 import mysql.connector
 import hashlib
-import json
 import pandas as pd
 
 def hash_password(password):
@@ -16,14 +15,19 @@ class user_model():
             self.mydb = mysql.connector.connect(
 	        host="localhost",
 	        user = "root",
-        	password="Hieu0504@",
+        	password="131003",
 	        database="VIVUAPP")
             self.mydb.autocommit = True
             self.cur = self.mydb.cursor(dictionary=True)
-            print("Connect successful")
         except:
             print("ERROR!!!")
     
+    def __del__(self):
+            try:
+                self.cur.close()
+            except Exception as e:
+                print(f"ERROR: {e}")
+
     # đăng ký
     def signup_model(self, data):
         try:
@@ -73,10 +77,11 @@ class user_model():
     # xem thông tin xe 'oki'
     def get_car_model(self):
         try:
-            self.cur.execute(f"Select * from Car")
+            self.cur.execute(f"Select * from car")
             result = self.cur.fetchall()
             return result
         except Exception as e:
+            result = {"data":str(e)}
             return result
         
     def my_car_model(self, id):
@@ -143,10 +148,11 @@ class user_model():
             return result
         
     # xem lịch sử thuê xe
-    def rental_history_model(self, cusID):
+    def rental_history_model(self, data):
         try:
-            self.cur.execute(f"CALL GetRentalHistory('{cusID}')")
+            self.cur.execute(f"CALL GetRentalHistory('{data['carOwnerID']}')")
             result = self.cur.fetchall()
+            print(result)
             if len(result)>0:
                 for i in range(len(result)):
                     print(result[i]['pickupTime']) 

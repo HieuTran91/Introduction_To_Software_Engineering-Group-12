@@ -13,7 +13,7 @@ def hash_password(password):
     return hash_object.hexdigest()
 
 app.secret_key = secrets.token_urlsafe(32)
-app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_PERMANENT"] = True
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
@@ -33,7 +33,6 @@ def welcome():
 @app.route('/listcar', methods = ["GET"])
 def listcar():
     result = g.user_model.get_car_model()
-    print(result)
     return jsonify(result)
 
 @app.route("/signup", methods = ["POST", "GET"])
@@ -47,11 +46,11 @@ def signup():
 @app.route("/login", methods = ["POST", "GET"])
 def login():
     result = g.user_model.login_model(request.json)
-    print(result)
     if len(result) > 0:
         # if session['user']
-        session['user'] = result[0]['accountID']
-        session['type'] = result[0]['isCarOwner']
+        if(session is None):
+            session["user"] = result[0]['accountID']
+            session['type'] = result[0]['isCarOwner']
     return jsonify(result)
  
 @app.route("/logout")
@@ -91,7 +90,7 @@ def currentRentalTripList():
 
 @app.route("/rentalHistory", methods = ["POST", "GET"])
 def rentalHistory():
-    result = g.user_model.rental_history_model(session["user"])
+    result = g.user_model.rental_history_model(request.json)
     return jsonify(result)
   
 @app.route("/tripHistory", methods = ["POST", "GET"])
