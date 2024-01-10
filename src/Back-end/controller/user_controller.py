@@ -1,6 +1,6 @@
 from lib import app
 from model.user_model import user_model
-from flask import request, render_template, session, redirect, jsonify
+from flask import request, render_template, session, redirect, jsonify, g
 import hashlib
 import secrets
 from flask_session import Session
@@ -17,19 +17,28 @@ app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
-obj = user_model()
+def get_user_model():
+    if 'user_model' not in g:
+        g.user_model = user_model()
+    return g.user_model
+
+@app.before_request
+def before_request():
+    g.user_model = get_user_model()
 
 @app.route('/')
 def welcome():
     return 'WELCOME TO VIVU APP'
 
-@app.route('/listcar', methods = ['GET'])
+@app.route('/listcar', methods = ["GET"])
 def listcar():
-    return obj.get_car_model()
+    result = g.user_model.get_car_model()
+    print(result)
+    return jsonify(result)
 
 @app.route("/signup", methods = ["POST", "GET"])
 def signup():
-    result = obj.signup_model(request.json)
+    result = g.user_model.signup_model(request.json)
     if len(result) > 0:
         session['user'] = result[0]['accountID']
         session['type'] = result[0]['isCarOwner']
@@ -37,7 +46,7 @@ def signup():
 
 @app.route("/login", methods = ["POST", "GET"])
 def login():
-    result = obj.login_model(request.json)
+    result = g.user_model.login_model(request.json)
     print(result)
     if len(result) > 0:
         # if session['user']
@@ -52,40 +61,40 @@ def logout():
     session['car'] = None
     return redirect("/login")
 
-@app.route("/car", methods = ["POST", "GET"])
+@app.route("/car", methods = ["GET","POST"])
 def getCar():
-    result = obj.get_detail_car_model(request.json)
+    result = g.user_model.get_detail_car_model(request.json)
     if len(result) > 0:
         session['car'] = result[0]['carID']
     return result
  
 @app.route("/editcar", methods = ["POST", "GET"])
 def editCar():
-    result = obj.edit_car_model(request.json, session['car'])
+    result = g.user_model.edit_car_model(request.json, session['car'])
     return jsonify(result)
  
  
 @app.route("/rentalcar", methods = ["POST", "GET"])
 def rentalCar():
-    result = obj.add_rental_model(request.json, session["user"], session['car'])
+    result = g.user_model.add_rental_model(request.json, session["user"], session['car'])
     return jsonify(result)
 
 @app.route("/currentTrip", methods = ["POST", "GET"])
 def currentTrip():
-    result = obj.current_trip_model(session["user"])
+    result = g.user_model.current_trip_model(session["user"])
     return jsonify(result)
 
 @app.route("/currentRentalTripList", methods = ["POST", "GET"])
 def currentRentalTripList():
-    result = obj.current_rental_trip_list_model(session["user"])
+    result = g.user_model.current_rental_trip_list_model(session["user"])
     return jsonify(result)
 
 @app.route("/rentalHistory", methods = ["POST", "GET"])
 def rentalHistory():
-    result = obj.rental_history_model(session["user"])
+    result = g.user_model.rental_history_model(session["user"])
     return jsonify(result)
   
 @app.route("/tripHistory", methods = ["POST", "GET"])
 def tripHistory():
-    result = obj.trip_history_model(session['user'])
+    result = g.user_model.trip_history_model(session['user'])
     return jsonify(result)
