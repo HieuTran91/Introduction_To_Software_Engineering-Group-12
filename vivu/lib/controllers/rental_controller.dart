@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 
 class RentalController {
   List<Rental> currentTrip = [];
-  List<Rental> tripHistory = [];
   List<Rental> currentRental = [];
   List<Rental> rentalHistory = [];
   Future<bool> addRental(String carID, String pickupTime, String returnTime) async {
@@ -93,13 +92,19 @@ class RentalController {
     }
   }
 
-  Future<bool> fetchTripHistory() async {
+  Future<bool> fetchTripHistory(String customerID) async {
     try {
-      final response = await http.get(Uri.parse('http://192.168.1.155:5000/tripHistory'));
+      final response = await http.post(Uri.parse('http://192.168.1.155:5000/tripHistory'),
+      
+        headers: {"Content-Type": "application/json"}, 
+        body: jsonEncode({
+        'customerID': customerID
+        })
+      );
 
       if (response.statusCode == 200) {
         List<dynamic> decodedData = jsonDecode(response.body) as List<dynamic>;
-       tripHistory = decodedData.map((rentalMap) => Rental.fromMap(rentalMap)).toList();
+        rentalHistory = decodedData.map((rentalMap) => Rental.fromMap(rentalMap)).toList();
         return true;
       } else {
         throw Exception('Failed to fetch trip history');

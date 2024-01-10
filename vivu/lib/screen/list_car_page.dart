@@ -7,6 +7,7 @@ import 'package:vivu/widgets/app_bar/appbar_trailing_image.dart';
 import 'package:vivu/widgets/app_bar/custom_app_bar.dart';
 import 'package:vivu/controllers/car_controller.dart';
 import 'package:vivu/models/car_model.dart';
+import 'package:vivu/controllers/account_controller.dart';
 
 class ListCarPage extends StatefulWidget {
   @override
@@ -15,12 +16,33 @@ class ListCarPage extends StatefulWidget {
 
 class _ListCarPageState extends State<ListCarPage> {
   final CarController _carController = CarController();
+  final accountSingleton = AccountSingleton();
   List<Car> brandCars = [];
 
   @override
   void initState() {
     super.initState();
-    _fetchListCar();
+    if (accountSingleton.myAccountFromMap.isCarOwner == 0)
+    {
+      _fetchListCar();
+    }
+    else
+    {
+      _fetchListCarByOwner(accountSingleton.myAccountFromMap.accountID);
+    }
+  }
+
+  Future<void> _fetchListCarByOwner(String carOwnerID) async {
+    try {
+      await _carController.fetchListCarByOwner(carOwnerID);
+    } catch (e) {
+      // Handle error when fetching the list of cars
+      // You can display an error message or retry mechanism
+      print('Error fetching cars: $e');
+    }
+    if (mounted) {
+      setState(() {}); // Update the UI after fetching the list of cars
+    }
   }
 
   Future<void> _fetchListCar() async {
@@ -131,6 +153,14 @@ Widget _buildCarList(BuildContext context) {
   void onTapCarDetails(BuildContext context, Car car) {
     Navigator.pushNamed(context, AppRoutes.bookingScreen);
   }
+//   void onTapCarDetails(BuildContext context, Car car) {
+//   Navigator.push(
+//     context,
+//     MaterialPageRoute(
+//       builder: (context) => CarDetailsScreen(car: car),
+//     ),
+//   );
+// }
 
   void _filterCarsByBrand(String brand) {
     brandCars = _carController.cars

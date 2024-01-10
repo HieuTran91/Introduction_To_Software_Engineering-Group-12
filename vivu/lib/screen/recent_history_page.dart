@@ -20,16 +20,33 @@ class RecentHistoryPage extends StatefulWidget {
 class _RecentHistoryPageState extends State<RecentHistoryPage> {
   late Future<bool> rentalHistoryFuture;
   final RentalController _rentalController = RentalController();
+  final accountSingleton = AccountSingleton();
   @override
   void initState() {
     super.initState();
-    rentalHistoryFuture = _fetchRentalHistory();
+    if (accountSingleton.myAccountFromMap.isCarOwner == 0)
+    {
+      rentalHistoryFuture = _fetchTripHistory(accountSingleton.myAccountFromMap.accountID);
+    }
+    else
+    {
+      rentalHistoryFuture = _fetchRentalHistory(accountSingleton.myAccountFromMap.accountID);
+    }
   }
 
-  Future<bool> _fetchRentalHistory() async {
-    final accountSingleton = AccountSingleton();
+  Future<bool> _fetchRentalHistory(String cusID) async {
     try {
-      await _rentalController.fetchRentalHistory(accountSingleton.myAccountFromMap.accountID);
+      await _rentalController.fetchRentalHistory(cusID);
+      return true;
+    } catch (e) {
+      print('Error fetching rental history: $e');
+      return false;
+    }
+  }
+
+  Future<bool> _fetchTripHistory(String cusID) async {
+    try {
+      await _rentalController.fetchRentalHistory(cusID);
       return true;
     } catch (e) {
       print('Error fetching rental history: $e');

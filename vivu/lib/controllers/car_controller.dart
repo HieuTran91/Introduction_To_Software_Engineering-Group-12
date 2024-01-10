@@ -75,9 +75,14 @@ class CarService {
     }
   }
 
-  Future<List<Car>> getListCarByOwner() async {
+  Future<List<Car>> getListCarByOwner(String carOwnerID) async {
     try {
-      final response = await http.get(Uri.parse('http://192.168.1.155:5000/mycar'));
+      final response = await http.post(Uri.parse('http://192.168.1.155:5000/mycar'),
+        headers: {"Content-Type": "application/json"}, 
+        body: jsonEncode({
+        'carOwnerID': carOwnerID
+        })
+      );
       if (response.statusCode == 200) {
         List<dynamic> decodedData = jsonDecode(response.body) as List<dynamic>;
         return decodedData.map((carMap) {
@@ -96,7 +101,6 @@ class CarService {
 class CarController {
   final CarService carService = CarService();
   List<Car> cars = [];
-  List<Car> carsByOwner = [];
   Car currentCar = Car();
   Future<bool> fetchCarById(String carID) async {
     try {
@@ -119,10 +123,10 @@ class CarController {
     }
   }
 
-  Future<bool> fetchListCarByOwner() async {
+  Future<bool> fetchListCarByOwner(String carOwnerID) async {
     try {
-      List<Car> ownerCars = await carService.getListCarByOwner();
-      carsByOwner = ownerCars;
+      List<Car> ownerCars = await carService.getListCarByOwner(carOwnerID);
+      cars = ownerCars;
       return true;
     } catch (e) {
       print('Error: $e');

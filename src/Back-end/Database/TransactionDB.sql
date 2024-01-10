@@ -225,7 +225,7 @@ DELIMITER //
 CREATE PROCEDURE GetRentalHistory(IN car_owner_ID CHAR(5))
 proc: BEGIN
     SELECT r.* FROM Rental r join Car c on c.carID = r.carID
-    where c.carOwnerID = car_owner_ID and rentalStatus = 1;
+    where c.carOwnerID = car_owner_ID;
 END //
 DELIMITER ;
 

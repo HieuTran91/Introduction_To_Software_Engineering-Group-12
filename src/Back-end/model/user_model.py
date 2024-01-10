@@ -84,9 +84,9 @@ class user_model():
             result = {"data":str(e)}
             return result
         
-    def my_car_model(self, id):
+    def my_car_model(self, data):
         try:
-            self.cur.execute(f"Select * from Car where carOwnerID = '{id}'")
+            self.cur.execute(f"Select * from Car where carOwnerID = ('{data['carOwnerID']}')")
             result = self.cur.fetchall()
             return result
         except Exception as e:
@@ -164,7 +164,7 @@ class user_model():
 
     def trip_history_model(self, data):
         try:
-            self.cur.execute(f"CALL GetTripHistory('{data['cusID']}')")
+            self.cur.execute(f"CALL GetTripHistory('{data['customerID']}')")
             result = self.cur.fetchall()
             if len(result)>0:
                 for i in range(len(result)):

@@ -35,6 +35,12 @@ def listcar():
     result = g.user_model.get_car_model()
     return jsonify(result)
 
+@app.route('/mycar', methods = ["POST"])
+def mycar():
+    result = g.user_model.my_car_model(request.json) 
+    print(result)
+    return jsonify(result)
+
 @app.route("/signup", methods = ["POST", "GET"])
 def signup():
     result = g.user_model.signup_model(request.json)
