@@ -53,9 +53,9 @@ class user_model():
             return result
  
     # sửa thông tin xe
-    def edit_car_model(self, data, carID):
+    def edit_car_model(self, data):
         try:
-            self.cur.execute(f"CALL editCar('{carID}', '{data['carCompany']}', '{data['model']}', {int(data['seats'])}, '{data['transmission']}', '{data['fuelType']}', {int(data['yearRelease'])}, {float(data['price'])});")
+            self.cur.execute(f"CALL editCar('{data['carID']}', '{data['carCompany']}', '{data['model']}', {int(data['seats'])}, '{data['transmission']}', '{data['fuelType']}', {int(data['yearRelease'])}, {float(data['price'])});")
             result = self.cur.fetchall()
             return (result)
         except Exception as e: 
@@ -102,9 +102,9 @@ class user_model():
             return result
  
     #thêm thuê xe 
-    def add_rental_model(self, data, cusID, carID):
+    def add_rental_model(self, data):
         try:
-            self.cur.execute(f"CALL InsertRental('{cusID}', '{carID}', '{pd.to_datetime(data['pickupTime'])}', '{pd.to_datetime(data['returnTime'])}')")
+            self.cur.execute(f"CALL InsertRental('{data['customerID']}', '{data['carID']}', '{pd.to_datetime(data['pickupTime'])}', '{pd.to_datetime(data['returnTime'])}')")
             result = self.cur.fetchall()
             return result
         except Exception as e:
@@ -121,9 +121,9 @@ class user_model():
             return result
     
     # xem thông tin chuyến đi hiện tại
-    def current_trip_model(self, cusID):
+    def current_trip_model(self, data):
         try:
-            self.cur.execute(f"CALL GetCurrentTrip('{cusID}')")
+            self.cur.execute(f"CALL GetCurrentTrip('{data['customerID']}')")
             result = self.cur.fetchall()
             if len(result)>0:
                 for i in range(len(result)):
@@ -134,9 +134,9 @@ class user_model():
         except Exception as e:
             return result
 
-    def current_rental_trip_list_model(self, cusID):
+    def current_rental_trip_list_model(self, data):
         try:    
-            self.cur.execute(f"CALL GetCurrentRentalCarList('{cusID}')")
+            self.cur.execute(f"CALL GetCurrentRentalCarList('{data['carOwnerID']}')")
             result = self.cur.fetchall()
             if len(result)>0:
                 for i in range(len(result)):
@@ -162,9 +162,9 @@ class user_model():
         except Exception as e:
             return result
 
-    def trip_history_model(self, cusID):
+    def trip_history_model(self, data):
         try:
-            self.cur.execute(f"CALL GetTripHistory('{cusID}')")
+            self.cur.execute(f"CALL GetTripHistory('{data['cusID']}')")
             result = self.cur.fetchall()
             if len(result)>0:
                 for i in range(len(result)):

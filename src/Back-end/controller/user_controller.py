@@ -38,54 +38,54 @@ def listcar():
 @app.route("/signup", methods = ["POST", "GET"])
 def signup():
     result = g.user_model.signup_model(request.json)
-    if len(result) > 0:
-        session['user'] = result[0]['accountID']
-        session['type'] = result[0]['isCarOwner']
+    # if len(result) > 0:
+    #     session['user'] = result[0]['accountID']
+    #     session['type'] = result[0]['isCarOwner']
     return jsonify(result)
 
 @app.route("/login", methods = ["POST", "GET"])
 def login():
     result = g.user_model.login_model(request.json)
-    if len(result) > 0:
+    # if len(result) > 0:
         # if session['user']
-        if(session is None):
-            session["user"] = result[0]['accountID']
-            session['type'] = result[0]['isCarOwner']
+        # if(session is None):
+        #     session["user"] = result[0]['accountID']
+        #     session['type'] = result[0]['isCarOwner']
     return jsonify(result)
  
 @app.route("/logout")
 def logout():
-    session["user"] = None
-    session["type"] = None
-    session['car'] = None
+    # session["user"] = None
+    # session["type"] = None
+    # session['car'] = None
     return redirect("/login")
 
 @app.route("/car", methods = ["GET","POST"])
 def getCar():
     result = g.user_model.get_detail_car_model(request.json)
-    if len(result) > 0:
-        session['car'] = result[0]['carID']
+    # if len(result) > 0:
+    #     session['car'] = result[0]['carID']
     return result
  
 @app.route("/editcar", methods = ["POST", "GET"])
 def editCar():
-    result = g.user_model.edit_car_model(request.json, session['car'])
+    result = g.user_model.edit_car_model(request.json)
     return jsonify(result)
  
  
 @app.route("/rentalcar", methods = ["POST", "GET"])
 def rentalCar():
-    result = g.user_model.add_rental_model(request.json, session["user"], session['car'])
+    result = g.user_model.add_rental_model(request.json)
     return jsonify(result)
 
 @app.route("/currentTrip", methods = ["POST", "GET"])
 def currentTrip():
-    result = g.user_model.current_trip_model(session["user"])
+    result = g.user_model.current_trip_model(request.json)
     return jsonify(result)
 
 @app.route("/currentRentalTripList", methods = ["POST", "GET"])
 def currentRentalTripList():
-    result = g.user_model.current_rental_trip_list_model(session["user"])
+    result = g.user_model.current_rental_trip_list_model(request.json)
     return jsonify(result)
 
 @app.route("/rentalHistory", methods = ["POST", "GET"])
@@ -95,5 +95,5 @@ def rentalHistory():
   
 @app.route("/tripHistory", methods = ["POST", "GET"])
 def tripHistory():
-    result = g.user_model.trip_history_model(session['user'])
+    result = g.user_model.trip_history_model(request.json)
     return jsonify(result)
