@@ -20,4 +20,16 @@ This project to build a car booking application for introductory software techno
 **Framework:** Flutter, Flask
 
 **Design:** Draw.io, Figma
+
+## Member Information
+
+- Lê Ngọc Thảo
+
+- Trần Trung Hiếu
+
+- Võ Cao Trí
+
+- Hoàng Lê Cát Thanh
+
+- Đoàn Thị Yến Nhi 
  
